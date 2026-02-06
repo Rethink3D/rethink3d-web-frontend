@@ -17,7 +17,7 @@ import { EventsSection } from "../components/sections/EventsSection";
 import { AboutSection } from "../components/sections/AboutSection";
 import { MakerCTASection } from "../components/sections/MakerCTASection";
 import type { ProductPreviewDTO } from "../types/dtos";
-import type { MakerPreviewDTO } from "../services/makerService";
+import type { MakerPreviewDTO } from "../types/dtos";
 import styles from "./Home.module.css";
 
 const Home = () => {

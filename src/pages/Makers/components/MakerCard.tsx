@@ -1,6 +1,6 @@
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
-import type { MakerPreviewDTO } from "../../../services/makerService";
+import type { MakerPreviewDTO } from "../../../types/dtos";
 import { getImageUrl } from "../../../utils/imageUtil";
 import { translateService } from "../../../utils/translationUtil";
 import styles from "./MakerCard.module.css";
@@ -25,10 +25,10 @@ export const MakerCard: React.FC<MakerCardProps> = ({ maker, onClick }) => {
         <div className={styles.rating}>
           {}
           <span>
-            {(maker.service || maker.services || ["Maker"])
+            {(maker.service || maker.service || ["Maker"])
               .toString()
               .split(",")
-              .map((s) => translateService(s))
+              .map((s: string) => translateService(s))
               .join(", ")}
           </span>
         </div>

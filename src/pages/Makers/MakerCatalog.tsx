@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import type { MakerPreviewDTO } from "../../services/makerService";
+import type { MakerPreviewDTO } from "../../types/dtos";
 import { makerService } from "../../services/makerService";
 import { MakerCard } from "./components/MakerCard";
 import styles from "./MakerCatalog.module.css";

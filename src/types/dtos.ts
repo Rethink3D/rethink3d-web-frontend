@@ -1,4 +1,3 @@
-// Product Preview Protocol (Catalog)
 export interface ProductDimensions {
   width: string;
   height: string;
@@ -9,18 +8,18 @@ export interface ProductDimensions {
 export interface ProductPreviewDTO {
   id: string;
   name: string;
-  price: string;
+  price: number;
   imageUrl: string;
   description: string;
   productDimensions?: ProductDimensions;
   maker: string;
   makerId: string;
+  rating: number;
   isPersonalizable: boolean;
   isActive: boolean;
   categories: string[];
 }
 
-// Maker Preview Protocol (Catalog)
 export type ServiceTypeEnum = "PRINT" | "MODEL" | "PRINT_AND_MODEL";
 
 export interface MakerPreviewDTO {
@@ -32,7 +31,6 @@ export interface MakerPreviewDTO {
   categories: string[];
 }
 
-// Product Page
 export interface ProductImageDTO {
   id: number;
   url: string;
@@ -73,7 +71,6 @@ export interface ProductPageDTO {
   isPersonalizable: boolean;
 }
 
-// Maker Page
 export interface MakerProductDTO {
   id: string;
   name: string;
