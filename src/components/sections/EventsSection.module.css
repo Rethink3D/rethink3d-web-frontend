@@ -1,0 +1,315 @@
+.section {
+  padding: 8rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+}
+
+.header h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.header p {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+}
+
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  aspect-ratio: 16/9;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.imageSlide {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.imageSlide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Partners Grid */
+/* Partners Grid */
+.partnersGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 4rem auto 0;
+  padding: 0 1rem;
+}
+
+.partnerCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dark Mode Background Override - Matching 'Vision' cards */
+:global([data-theme="dark"]) .partnerCard {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Shine Effect */
+.partnerCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  transition: none; /* Reset transition */
+  pointer-events: none;
+  z-index: 1;
+}
+
+.partnerCard:hover::before {
+  left: 200%;
+  transition: left 0.7s ease-in-out;
+}
+
+.partnerCard:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-text-secondary);
+  box-shadow: var(--shadow-lg);
+}
+
+:global([data-theme="dark"]) .partnerCard:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconWrapper {
+  background: linear-gradient(
+    135deg,
+    var(--color-surface),
+    var(--color-tertiary)
+  );
+  padding: 0.75rem;
+  border-radius: 12px;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.headerInfo h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(
+    to right,
+    var(--color-text-primary),
+    var(--color-text-secondary)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.role {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .partnersGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .partnerCard {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+}
+
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.navBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prevBtn {
+  left: 1rem;
+}
+.nextBtn {
+  right: 1rem;
+}
+
+.controlsWrapper {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.controls {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.playPauseBtn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.playPauseBtn:hover {
+  opacity: 1;
+}
+
+.controlBtn {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.controlBtn.active {
+  background: white;
+  transform: scale(1.3);
+}
+
+@media (max-width: 768px) {
+  .header h2 {
+    font-size: 2rem;
+  }
+  .carouselContainer {
+    aspect-ratio: 1/1;
+    border-radius: 12px;
+    max-width: 100%;
+  }
+
+  .navBtn {
+    display: none;
+  }
+
+  .dot {
+    width: 24px;
+    height: 24px;
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.1);
+  }
+
+  .dotContainer.active .dot {
+    background: white;
+    transform: scale(1.2);
+  }
+
+  .annotationCard {
+    position: fixed;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: auto;
+    min-width: 280px;
+    max-width: 90%;
+    z-index: 1000;
+    pointer-events: none;
+    top: auto !important;
+  }
+
+  .dotContainer.active .annotationCard {
+    opacity: 1;
+  }
+
+  .annotationCard::after {
+    display: none;
+  }
+}
+
+.dotContainer.active .annotationCard {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}

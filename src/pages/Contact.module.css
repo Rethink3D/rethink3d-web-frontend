@@ -1,0 +1,59 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  min-height: 80vh;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.header h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.header p {
+  color: var(--color-text-secondary);
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.contactCard {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 3rem !important;
+}
+
+.icon {
+  color: var(--color-text-primary);
+}
+
+.contactCard h3 {
+  font-size: 1.5rem;
+}
+
+.contactCard p {
+  color: var(--color-text-secondary);
+  font-size: 1.125rem;
+}
+
+.mapSection {
+  text-align: center;
+  padding-top: 4rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}

@@ -1,0 +1,363 @@
+.home {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 60px;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  max-width: 1400px;
+  width: 100%;
+  padding: 0 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  width: 100%;
+}
+
+.heroText {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heroVisual {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.highlight {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-text-primary);
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: "PRINT.";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-text-primary);
+  width: 0%;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: fillText 4s infinite alternate;
+}
+
+@keyframes fillText {
+  0% {
+    width: 0%;
+  }
+  50%,
+  100% {
+    width: 100%;
+  }
+}
+
+.hero p {
+  font-size: 1.5rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 3rem;
+  font-weight: 300;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.heroActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.ctaGroup {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.storeButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.storeBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #000;
+  border: 1px solid #333;
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.storeBtn:hover {
+  background-color: #111;
+  transform: translateY(-2px);
+  border-color: #444;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.storeBtn svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.storeText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  text-align: left;
+}
+
+.storeText span:first-child {
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.storeText span:last-child {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.marqueeSection {
+  width: 100%;
+  position: relative;
+  z-index: 5;
+  margin-top: 0;
+  margin-top: 0;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 769px) {
+  .marqueeSection {
+    margin-top: 4rem;
+  }
+}
+
+.miniCard {
+  width: 320px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  gap: 1.5rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    background 0.2s;
+  backdrop-filter: blur(10px);
+}
+
+.miniCard:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.miniCard img {
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.miniCardInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 0.25rem;
+}
+
+.miniCardInfo strong {
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.miniCardInfo span {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.features {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 1.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  margin-bottom: 4rem;
+}
+
+.featuresHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.featuresHeader h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.featuresHeader p {
+  color: var(--color-text-secondary);
+  font-size: 1.125rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.featureCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2.5rem !important;
+  cursor: pointer;
+}
+
+.iconWrapper {
+  width: 60px;
+  height: 60px;
+  background-color: var(--color-secondary);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.linkText {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.cta {
+  padding: 6rem 1.5rem;
+  background-color: transparent;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
+
+.ctaContent {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.cta h2 {
+  font-size: 2.5rem;
+}
+
+.cta p {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+    word-break: break-word;
+  }
+
+  .heroVisual {
+    overflow: hidden;
+  }
+
+  .heroGrid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .heroText {
+    align-items: center;
+    text-align: center;
+  }
+
+  .heroActions {
+    justify-content: center;
+    gap: 1rem;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .heroActions button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .heroVisual {
+    height: 450px;
+    margin-bottom: 2rem;
+    overflow: visible;
+  }
+
+  .marqueeSection {
+    padding-bottom: 1rem;
+  }
+}

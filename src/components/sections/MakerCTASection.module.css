@@ -1,0 +1,74 @@
+.section {
+  padding: 6rem 1.5rem;
+  background: transparent;
+  border-top: 1px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.card {
+  background: var(--color-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-primary);
+}
+
+.card h3 {
+  font-size: 1.75rem;
+  color: var(--color-text-primary);
+}
+
+.card p {
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.iconWrapper {
+  width: 60px;
+  height: 60px;
+  background: rgba(var(--color-primary-rgb), 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+}
+
+.appCard .iconWrapper {
+  background: rgba(var(--color-secondary-rgb), 0.1);
+  color: var(--color-text-primary);
+}
+
+.appCard:hover {
+  border-color: var(--color-secondary);
+}
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 4rem 1.5rem;
+  }
+}

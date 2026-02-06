@@ -1,0 +1,32 @@
+.marqueeContainer {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  display: flex;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%
+  );
+}
+
+.track {
+  display: flex;
+  width: max-content;
+}
+
+.content {
+  display: flex;
+  gap: 3rem;
+  padding-right: 3rem;
+  align-items: center;
+}
