@@ -2,16 +2,19 @@ import type { ProductPreviewDTO } from "../../../types/dtos";
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { getImageUrl } from "../../../utils/imageUtil";
+import { PersonalizableBadge } from "./PersonalizableBadge";
 import styles from "./ProductCard.module.css";
 
 interface ProductCardProps {
   product: ProductPreviewDTO;
   onClick?: () => void;
+  compact?: boolean;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onClick,
+  compact,
 }) => {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -37,7 +40,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className={styles.content}>
         <div className={styles.header}>
           <h3 title={product.name}>{product.name}</h3>
-          <span className={styles.price}>{formatPrice(product.price)}</span>
+          <div className={styles.priceRow}>
+            <span className={styles.price}>{formatPrice(product.price)}</span>
+            {product.isPersonalizable && (
+              <PersonalizableBadge compact={compact} />
+            )}
+          </div>
         </div>
         <div className={styles.meta}>
           {product.maker && (

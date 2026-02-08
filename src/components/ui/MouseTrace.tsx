@@ -72,7 +72,7 @@ export const MouseTrace = () => {
           borderRadius: "50%",
           transform: "translate(-50%, -50%)",
           pointerEvents: "none",
-          zIndex: 9999,
+          zIndex: 10001,
           opacity: opacity,
           transition: "opacity 0.2s ease, background-color 0.3s",
           mixBlendMode: "difference",
@@ -92,7 +92,7 @@ export const MouseTrace = () => {
           borderRadius: "50%",
           transform: "translate(-50%, -50%)",
           pointerEvents: "none",
-          zIndex: 9998,
+          zIndex: 10000,
           opacity: opacity,
           transition:
             "width 0.3s ease, height 0.3s ease, background-color 0.3s ease",

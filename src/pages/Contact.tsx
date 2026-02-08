@@ -15,39 +15,53 @@ const Contact: React.FC = () => {
       </header>
 
       <div className={styles.grid}>
-        <Card className={styles.contactCard} hoverEffect={false}>
-          <Mail size={48} className={styles.icon} />
+        <Card className={styles.contactCard}>
+          <div className={styles.iconWrapper}>
+            <Mail size={32} />
+          </div>
           <h3>Email</h3>
           <p>contato@rethink3d.com.br</p>
           <Button
             variant="outline"
+            className={styles.contactButton}
             onClick={() =>
               (window.location.href = "mailto:contato@rethink3d.com.br")
             }
           >
-            Enviar Email
+            Enviar Mensagem
           </Button>
         </Card>
 
-        <Card className={styles.contactCard} hoverEffect={false}>
-          <Instagram size={48} className={styles.icon} />
+        <Card className={styles.contactCard}>
+          <div className={styles.iconWrapper}>
+            <Instagram size={32} />
+          </div>
           <h3>Instagram</h3>
           <p>@_rethink3d</p>
           <Button
             variant="outline"
+            className={styles.contactButton}
             onClick={() =>
               window.open("https://instagram.com/_rethink3d", "_blank")
             }
           >
-            Seguir
+            Seguir Perfil
           </Button>
         </Card>
 
-        <Card className={styles.contactCard} hoverEffect={false}>
-          <MessageCircle size={48} className={styles.icon} />
+        <Card className={styles.contactCard}>
+          <div className={styles.iconWrapper}>
+            <MessageCircle size={32} />
+          </div>
           <h3>Suporte</h3>
-          <p>Precisa de ajuda com um pedido?</p>
-          <Button variant="outline">Abrir Chamado</Button>
+          <p>Nossa equipe está pronta para te ajudar</p>
+          <Button
+            variant="outline"
+            className={styles.contactButton}
+            onClick={() => window.open("https://tally.so/r/Bzkae7", "_blank")}
+          >
+            Abrir Chamado
+          </Button>
         </Card>
       </div>
 

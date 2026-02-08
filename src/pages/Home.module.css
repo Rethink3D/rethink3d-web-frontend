@@ -76,7 +76,7 @@
 }
 
 .highlight::after {
-  content: "PRINT.";
+  content: "IMPRIMA.";
   position: absolute;
   left: 0;
   top: 0;
@@ -316,6 +316,59 @@
 .cta p {
   font-size: 1.125rem;
   color: var(--color-text-secondary);
+}
+
+.ctaButton {
+  background: var(--color-primary) !important;
+  color: var(--color-background) !important;
+  font-weight: 600 !important;
+  height: 56px;
+  font-size: 1.1rem !important;
+  border-radius: var(--radius-full) !important;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s !important;
+  position: relative;
+  overflow: hidden;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0 2.5rem !important;
+  margin-top: 1rem;
+}
+
+.ctaButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.ctaButton:hover::before {
+  left: 100%;
+}
+
+:global([data-theme="light"]) .ctaButton {
+  color: #000 !important;
+}
+
+:global([data-theme="dark"]) .ctaButton {
+  color: #fff !important;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {

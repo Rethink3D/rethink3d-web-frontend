@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Users } from "lucide-react";
+import { ArrowRight, Users, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { InfiniteMarquee } from "../components/ui/InfiniteMarquee";
@@ -56,8 +56,8 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
-                IMAGINE. <br /> CREATE.{" "}
-                <span className={styles.highlight}>PRINT.</span>
+                IMAGINE. <br /> CRIE.{" "}
+                <span className={styles.highlight}>IMPRIMA.</span>
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -211,8 +211,9 @@ const Home = () => {
             variant="secondary"
             size="lg"
             onClick={() => navigate("/contact")}
+            className={styles.ctaButton}
           >
-            Entre em Contato
+            <Mail size={20} /> Entre em Contato
           </Button>
         </div>
       </motion.section>

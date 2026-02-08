@@ -1,8 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { User, Smartphone } from "lucide-react";
 import { Button } from "../ui/Button";
 import styles from "./MakerCTASection.module.css";
 
 export const MakerCTASection: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -38,9 +41,10 @@ export const MakerCTASection: React.FC = () => {
           </p>
           <Button
             variant="outline"
-            onClick={() =>
-              window.open("https://rethink3d.com.br/download", "_blank")
-            }
+            onClick={() => {
+              navigate("/");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             className="w-full"
           >
             Baixar App

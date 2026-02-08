@@ -65,7 +65,7 @@ export const RippleEffect = () => {
             width: 0px;
             height: 0px;
             opacity: 0.8;
-            border: 2px solid rgba(100, 100, 255, 0.5); /* Blue-ish tint */
+            border: 2px solid rgba(100, 100, 255, 0.5); 
             background-color: rgba(100, 100, 255, 0.1);
           }
           100% {

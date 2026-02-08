@@ -1,0 +1,263 @@
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.makerInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(
+    135deg,
+    var(--color-surface),
+    var(--color-surface-hover)
+  );
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.makerInfo::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.makerInfo:hover::before {
+  left: 100%;
+}
+
+.makerInfo:hover {
+  transform: translateY(-2px);
+  background: rgb(var(--color-surface-rgb));
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.12);
+  border-color: var(--color-text-primary);
+}
+
+.makerAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+}
+
+.makerText {
+  display: flex;
+  flex-direction: column;
+}
+
+.makerLabel {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.makerName {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.categories,
+.materials,
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.categories h3,
+.description h3,
+.materials h3 {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.description p {
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  font-size: 1.05rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background: linear-gradient(
+    135deg,
+    var(--color-surface),
+    var(--color-surface-hover)
+  );
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.ctaContainer {
+  padding: 2rem;
+  background: linear-gradient(
+    135deg,
+    var(--color-surface),
+    var(--color-surface-hover)
+  );
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.ctaTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.ctaText {
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.downloadButton {
+  background: var(--color-primary) !important;
+  color: var(--color-background) !important;
+  font-weight: 600 !important;
+  height: 56px;
+  font-size: 1.1rem !important;
+  border-radius: var(--radius-full) !important;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s !important;
+  position: relative;
+  overflow: hidden;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.downloadButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.downloadButton:hover::before {
+  left: 100%;
+}
+
+:global([data-theme="light"]) .downloadButton {
+  color: #000 !important;
+}
+
+:global([data-theme="dark"]) .downloadButton {
+  color: #fff !important;
+}
+
+.downloadButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.personalizableNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 768px) {
+  .productInfo {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    order: -2;
+  }
+
+  .ctaContainer {
+    order: -1;
+    margin-bottom: 1.5rem;
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+  }
+
+  .price {
+    font-size: 1.75rem;
+  }
+
+  .makerInfo {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .price {
+    font-size: 1.5rem;
+  }
+
+  .ctaContainer {
+    padding: 1.5rem;
+  }
+
+  .downloadButton {
+    height: 50px;
+    font-size: 1rem !important;
+  }
+}
