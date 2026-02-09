@@ -46,7 +46,6 @@
   line-height: 1.6;
 }
 
-
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -61,37 +60,41 @@
   align-items: center;
   gap: 1.5rem;
   padding: 3.5rem 2rem !important;
-  background: linear-gradient(
-    135deg,
-    var(--color-surface),
-    var(--color-surface-hover)
-  );
+  background: transparent !important;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  backdrop-filter: none !important;
 }
 
 .contactCard:hover {
-  transform: translateY(-8px);
-  border-color: var(--color-primary);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+  border-color: var(--color-text-secondary);
 }
 
-.contactCard::before {
+.contactCard:hover::after {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: -100%;
+  width: 50%;
   height: 100%;
-  background: radial-gradient(
-    circle at top right,
-    rgba(var(--color-primary-rgb), 0.05),
-    transparent 70%
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(var(--color-text-primary-rgb), 0.1),
+    transparent
   );
-  pointer-events: none;
+  transform: skewX(-25deg);
+  animation: shine 0.75s;
+}
+
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
 }
 
 .iconWrapper {
@@ -141,7 +144,6 @@
   transition: all 0.2s ease !important;
 }
 
-
 .mapSection {
   text-align: center;
   padding: 4rem 2rem;
@@ -157,7 +159,6 @@
   font-weight: 500;
   font-size: 1.1rem;
 }
-
 
 @media (max-width: 1024px) {
   .grid {

@@ -2,15 +2,19 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, Zap, ZapOff } from "lucide-react";
 import classNames from "classnames";
 import { useTheme } from "../../hooks/useTheme";
+import { useSettings } from "../../context/useSettings";
+import { useAuth } from "../../context/useAuth";
 import styles from "./Navbar.module.css";
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { isAnimationEnabled, toggleAnimation } = useSettings();
+  const { isAuthenticated } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -74,22 +78,36 @@ export const Navbar: React.FC = () => {
             </Link>
           ))}
 
-          <a
-            href="https://dashboard.rethink3d.com.br"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.makerButton}
-          >
-            Área Maker
-          </a>
+          {isAuthenticated ? (
+            <Link to="/dashboard" className={styles.makerButton}>
+              Dashboard
+            </Link>
+          ) : (
+            <Link to="/login" className={styles.makerButton}>
+              Área Maker
+            </Link>
+          )}
 
-          <button
-            onClick={toggleTheme}
-            className={styles.themeToggle}
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
+          <div className={styles.navbarActions}>
+            <button
+              onClick={toggleAnimation}
+              className={styles.themeToggle}
+              title={
+                isAnimationEnabled ? "Desativar animação" : "Ativar animação"
+              }
+              aria-label="Toggle animation"
+            >
+              {isAnimationEnabled ? <Zap size={18} /> : <ZapOff size={18} />}
+            </button>
+
+            <button
+              onClick={toggleTheme}
+              className={styles.themeToggle}
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+          </div>
         </div>
 
         <button
@@ -157,6 +175,25 @@ export const Navbar: React.FC = () => {
                   >
                     <button
                       onClick={() => {
+                        toggleAnimation();
+                        setIsOpen(false);
+                      }}
+                      className={styles.themeToggleMobile}
+                    >
+                      <span>
+                        {isAnimationEnabled
+                          ? "Desativar Animação"
+                          : "Ativar Animação"}
+                      </span>
+                      {isAnimationEnabled ? (
+                        <Zap size={20} />
+                      ) : (
+                        <ZapOff size={20} />
+                      )}
+                    </button>
+
+                    <button
+                      onClick={() => {
                         toggleTheme();
                         setIsOpen(false);
                       }}
@@ -172,14 +209,23 @@ export const Navbar: React.FC = () => {
                       )}
                     </button>
 
-                    <a
-                      href="https://dashboard.rethink3d.com.br"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.mobileMakerBtn}
-                    >
-                      Área Maker
-                    </a>
+                    {isAuthenticated ? (
+                      <Link
+                        to="/dashboard"
+                        className={styles.mobileMakerBtn}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                    ) : (
+                      <Link
+                        to="/login"
+                        className={styles.mobileMakerBtn}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Área Maker
+                      </Link>
+                    )}
                   </div>
                 </motion.div>
               </>

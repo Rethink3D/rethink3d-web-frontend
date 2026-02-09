@@ -14,7 +14,6 @@
   transform: translateY(-5px) scale(1.01);
   border-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.15);
-  background: rgba(26, 26, 26, 0.8);
 }
 
 .hoverEffect:hover::after {

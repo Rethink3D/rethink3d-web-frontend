@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useTheme } from "../../hooks/useTheme";
+import { useSettings } from "../../context/useSettings";
 
 class Particle {
   x: number;
@@ -59,12 +60,15 @@ class Particle {
   }
 }
 
-export const GridBackground = () => {
+export const GridBackground = React.memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const { theme } = useTheme();
+  const { isAnimationEnabled } = useSettings();
 
   useEffect(() => {
+    if (!isAnimationEnabled) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -75,8 +79,7 @@ export const GridBackground = () => {
     let height = (canvas.height = window.innerHeight);
 
     const particles: Particle[] = [];
-    
-    
+
     const isMobile = window.innerWidth < 768;
     const particleCount = Math.min(
       window.innerWidth / (isMobile ? 25 : 15),
@@ -111,7 +114,7 @@ export const GridBackground = () => {
 
     const connect = () => {
       if (!ctx) return;
-      
+
       const maxDist = isMobile ? 80 : 150;
 
       const isLight = theme === "light";
@@ -148,7 +151,6 @@ export const GridBackground = () => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
     };
 
-    
     init();
     handleResize();
     const animationId = requestAnimationFrame(animate);
@@ -161,7 +163,9 @@ export const GridBackground = () => {
       window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(animationId);
     };
-  }, [theme]);
+  }, [theme, isAnimationEnabled]);
+
+  if (!isAnimationEnabled) return null;
 
   return (
     <canvas
@@ -177,4 +181,4 @@ export const GridBackground = () => {
       }}
     />
   );
-};
+});

@@ -49,6 +49,13 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+.navbarActions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 1rem;
+}
+
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -289,7 +296,6 @@
   cursor: pointer;
 }
 
-
 @media (min-width: 768px) and (max-width: 1024px) {
   .container {
     padding: 0 1.5rem;
@@ -331,7 +337,6 @@
   }
 }
 
-
 @media (min-width: 1025px) {
   .desktopMenu {
     display: flex;
@@ -342,7 +347,6 @@
     display: none;
   }
 }
-
 
 @media (max-width: 767px) {
   .navbar {
@@ -391,7 +395,6 @@
     padding: 0.75rem 0;
   }
 }
-
 
 @media (max-width: 480px) {
   .navbar {

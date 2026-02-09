@@ -1,0 +1,226 @@
+.sidebar {
+  position: fixed;
+  left: 1.5rem;
+  top: 108px;
+  bottom: 1.5rem;
+  width: 260px;
+  background: linear-gradient(
+    135deg,
+    var(--color-surface),
+    var(--color-surface-hover)
+  );
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  z-index: 40;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.collapsed {
+  width: 80px;
+  padding: 1.25rem 0.75rem;
+}
+
+.collapseBtn {
+  position: absolute;
+  right: -12px;
+  top: 24px;
+  width: 24px;
+  height: 24px;
+  background: var(--color-accent);
+  color: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 50;
+  transition: transform 0.3s ease;
+}
+
+.collapseBtn:hover {
+  transform: scale(1.1);
+}
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex: 1;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s ease;
+  font-weight: 500;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.collapsed .menuItem {
+  padding: 0.875rem;
+  justify-content: center;
+  gap: 0;
+}
+
+.menuItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-primary);
+  transform: translateX(4px);
+}
+
+.collapsed .menuItem:hover {
+  transform: scale(1.05);
+}
+
+:global([data-theme="light"]) .menuItem:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-primary) !important;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+:global([data-theme="light"]) .active {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.icon {
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.active .icon {
+  color: var(--color-accent, #ffffff);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
+
+.name {
+  font-size: 0.95rem;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.collapsed .name {
+  opacity: 0;
+  transform: translateX(-10px);
+  width: 0;
+}
+
+.logoutBtn {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  opacity: 0.8;
+  overflow: hidden;
+}
+
+.collapsed .logoutBtn {
+  justify-content: center;
+  padding: 0.875rem;
+}
+
+.logoutBtn:hover {
+  background: rgba(255, 77, 77, 0.1);
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: 100% !important;
+    height: 70px;
+    flex-direction: row;
+    padding: 0 8px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding-bottom: env(safe-area-inset-bottom);
+    margin: 0;
+  }
+
+  :global([data-theme="light"]) .sidebar {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .collapseBtn {
+    display: none;
+  }
+
+  .menuList {
+    flex-direction: row;
+    width: 100%;
+    gap: 4px;
+    justify-content: space-around;
+  }
+
+  .menuItem {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 0 !important;
+    flex: 1;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    border: none;
+  }
+
+  .menuItem:hover {
+    background: none;
+    transform: none;
+  }
+
+  .active {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    box-shadow: none;
+  }
+
+  .name {
+    display: block !important;
+    opacity: 1 !important;
+    width: auto !important;
+    transform: none !important;
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+
+  .logoutBtn {
+    display: none;
+  }
+}

@@ -15,7 +15,7 @@ const Contact: React.FC = () => {
       </header>
 
       <div className={styles.grid}>
-        <Card className={styles.contactCard}>
+        <Card className={styles.contactCard} hoverEffect={false}>
           <div className={styles.iconWrapper}>
             <Mail size={32} />
           </div>
@@ -32,7 +32,7 @@ const Contact: React.FC = () => {
           </Button>
         </Card>
 
-        <Card className={styles.contactCard}>
+        <Card className={styles.contactCard} hoverEffect={false}>
           <div className={styles.iconWrapper}>
             <Instagram size={32} />
           </div>
@@ -49,7 +49,7 @@ const Contact: React.FC = () => {
           </Button>
         </Card>
 
-        <Card className={styles.contactCard}>
+        <Card className={styles.contactCard} hoverEffect={false}>
           <div className={styles.iconWrapper}>
             <MessageCircle size={32} />
           </div>

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export const MouseTrace = () => {
+export const MouseTrace = React.memo(() => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
@@ -101,4 +101,4 @@ export const MouseTrace = () => {
       />
     </>
   );
-};
+});

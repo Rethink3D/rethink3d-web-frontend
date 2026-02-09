@@ -1,6 +1,7 @@
+import React from "react";
 import styles from "./PrinterLoader.module.css";
 
-export const PrinterLoader = () => {
+export const PrinterLoader = React.memo(() => {
   return (
     <div className={styles.container}>
       <div className={styles.iconWrapper}>
@@ -29,4 +30,4 @@ export const PrinterLoader = () => {
       <div className={styles.loadingText}>FATIANDO...</div>
     </div>
   );
-};
+});

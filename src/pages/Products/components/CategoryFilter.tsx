@@ -8,9 +8,11 @@ interface FilterSidebarProps {
   categories: string[];
   selectedCategories: string[];
   isPersonalizableFilter: boolean | null;
+  isActiveFilter?: boolean | null; 
   onApplyFilters: (
     categories: string[],
     isPersonalizable: boolean | null,
+    isActive?: boolean | null,
   ) => void;
   activeFilterCount: number;
 }
@@ -19,6 +21,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   categories,
   selectedCategories,
   isPersonalizableFilter,
+  isActiveFilter = null,
   onApplyFilters,
   activeFilterCount,
 }) => {
@@ -28,12 +31,15 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   const [tempIsPersonalizable, setTempIsPersonalizable] = useState<
     boolean | null
   >(isPersonalizableFilter);
+  const [tempIsActive, setTempIsActive] = useState<boolean | null>(
+    isActiveFilter,
+  );
 
   const toggleSidebar = () => {
     if (!isOpen) {
-      
       setTempSelectedCategories(selectedCategories);
       setTempIsPersonalizable(isPersonalizableFilter);
+      setTempIsActive(isActiveFilter);
     }
     setIsOpen(!isOpen);
   };
@@ -50,19 +56,25 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
     setTempIsPersonalizable(value);
   };
 
+  const handleActiveChange = (value: boolean | null) => {
+    setTempIsActive(value);
+  };
+
   const handleApply = () => {
-    onApplyFilters(tempSelectedCategories, tempIsPersonalizable);
+    onApplyFilters(tempSelectedCategories, tempIsPersonalizable, tempIsActive);
     setIsOpen(false);
   };
 
   const handleClear = () => {
     setTempSelectedCategories([]);
     setTempIsPersonalizable(null);
+    setTempIsActive(null);
   };
 
   const handleCancel = () => {
     setTempSelectedCategories(selectedCategories);
     setTempIsPersonalizable(isPersonalizableFilter);
+    setTempIsActive(isActiveFilter);
     setIsOpen(false);
   };
 
@@ -204,6 +216,65 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                       </label>
                     </div>
                   </div>
+
+                  {isActiveFilter !== undefined && (
+                    <div className={styles.filterSection}>
+                      <div className={styles.sectionHeader}>
+                        <h3>
+                          Status do Produto
+                          <FilterHelp
+                            content={
+                              <>
+                                <p>
+                                  <strong>Ativo:</strong> Visível para todos os
+                                  clientes no catálogo.
+                                </p>
+                                <p>
+                                  <strong>Pausado:</strong> Oculto para
+                                  clientes, mas salvo em sua conta.
+                                </p>
+                              </>
+                            }
+                          />
+                        </h3>
+                      </div>
+                      <div className={styles.radioGroup}>
+                        <label className={styles.radioItem}>
+                          <input
+                            type="radio"
+                            name="status"
+                            checked={tempIsActive === null}
+                            onChange={() => handleActiveChange(null)}
+                            className={styles.radio}
+                          />
+                          <span className={styles.radioCustom}></span>
+                          <span className={styles.radioLabel}>Todos</span>
+                        </label>
+                        <label className={styles.radioItem}>
+                          <input
+                            type="radio"
+                            name="status"
+                            checked={tempIsActive === true}
+                            onChange={() => handleActiveChange(true)}
+                            className={styles.radio}
+                          />
+                          <span className={styles.radioCustom}></span>
+                          <span className={styles.radioLabel}>Ativos</span>
+                        </label>
+                        <label className={styles.radioItem}>
+                          <input
+                            type="radio"
+                            name="status"
+                            checked={tempIsActive === false}
+                            onChange={() => handleActiveChange(false)}
+                            className={styles.radio}
+                          />
+                          <span className={styles.radioCustom}></span>
+                          <span className={styles.radioLabel}>Pausados</span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
 
                   {}
                   <div className={styles.filterSection}>

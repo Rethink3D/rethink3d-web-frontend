@@ -60,7 +60,11 @@ const MakerCatalog: React.FC = () => {
 
         <div className={styles.headerRight}>
           <div className={styles.filterBar}>
-            <SearchBar onSearch={setSearchText} placeholder="Buscar makers...">
+            <SearchBar
+              onSearch={setSearchText}
+              placeholder="Buscar makers..."
+              className={styles.catalogSearchBar}
+            >
               <MakerFilterSidebar
                 categories={availableCategories}
                 selectedCategories={selectedCategories}

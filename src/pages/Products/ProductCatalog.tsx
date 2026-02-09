@@ -9,7 +9,6 @@ import { FilterSidebar } from "./components/CategoryFilter";
 import { useProductFilters } from "../../hooks/useProductFilters";
 import styles from "./ProductCatalog.module.css";
 
-
 const shuffleArray = <T,>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -24,7 +23,6 @@ const ProductCatalog: React.FC = () => {
   const [products, setProducts] = useState<ProductPreviewDTO[]>([]);
   const [loading, setLoading] = useState(true);
 
-  
   const activeProducts = useMemo(() => {
     const active = products.filter((product) => product.isActive);
     return shuffleArray(active);
@@ -82,6 +80,7 @@ const ProductCatalog: React.FC = () => {
             <SearchBar
               onSearch={setSearchText}
               placeholder="Buscar produtos..."
+              className={styles.catalogSearchBar}
             >
               <FilterSidebar
                 categories={availableCategories}

@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Stage } from "@react-three/drei";
 import * as THREE from "three";
@@ -38,11 +38,19 @@ const RealPrinterModel = () => {
   return <primitive object={scene} />;
 };
 
-export const PrinterViewer = () => {
+export const PrinterViewer = React.memo(() => {
   const { theme } = useTheme();
   const isLightMode = theme === "light";
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { amount: 0.1 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <div ref={containerRef} className={styles.container}>
@@ -50,6 +58,11 @@ export const PrinterViewer = () => {
         camera={{ position: [6, 6, 8], fov: 40 }}
         dpr={[1, 1.5]}
         frameloop={isInView ? "always" : "never"}
+        gl={{ preserveDrawingBuffer: true }}
+        style={{
+          touchAction: "pan-y",
+          pointerEvents: isMobile ? "none" : "auto",
+        }}
       >
         <ambientLight intensity={isLightMode ? 0.7 : 0.6} />
         <pointLight
@@ -70,7 +83,7 @@ export const PrinterViewer = () => {
             intensity={isLightMode ? 0.7 : 1}
             shadows={false}
             preset="rembrandt"
-            adjustCamera={1.2}
+            adjustCamera={1.4}
           >
             <RealPrinterModel />
           </Stage>
@@ -78,6 +91,7 @@ export const PrinterViewer = () => {
 
         <OrbitControls
           enableZoom={false}
+          enableRotate={!isMobile}
           autoRotate={isInView}
           autoRotateSpeed={1.5}
           makeDefault
@@ -87,4 +101,6 @@ export const PrinterViewer = () => {
       </Canvas>
     </div>
   );
-};
+});
+
+useGLTF.preload("/models/printer.glb");

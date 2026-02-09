@@ -1,0 +1,270 @@
+.container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 72px);
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.iconWrapper {
+  width: auto;
+  height: auto;
+  background: transparent;
+  backdrop-filter: none;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: none;
+}
+
+.titleSection h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--color-text-primary);
+  letter-spacing: -0.04em;
+  background: linear-gradient(
+    135deg,
+    var(--color-text-primary) 0%,
+    var(--color-text-secondary) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.titleSection p {
+  color: var(--color-text-secondary);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3.5rem;
+  gap: 2rem;
+  padding: 0.5rem 0;
+  width: 100%;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.tab:hover:not(.activeTab) {
+  color: var(--color-text-primary);
+  background: rgba(var(--color-text-primary-rgb), 0.05);
+}
+
+.activeTab {
+  color: var(--color-text-primary);
+}
+
+.activeTab::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 2px;
+  background: var(--color-text-primary);
+  border-radius: var(--radius-full);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  max-width: 750px;
+  justify-content: flex-end;
+}
+
+.searchWrapper {
+  flex: 1;
+  max-width: 550px;
+}
+
+.dashboardSearchBar {
+  width: 100% !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.dashboardSearchBar:focus-within {
+  border-color: var(--color-accent) !important;
+}
+
+.requestsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 220px;
+  gap: 1rem;
+  width: 100%;
+}
+
+.loadingState,
+.errorState,
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 0;
+  gap: 1.5rem;
+  color: var(--color-text-secondary);
+  width: 100%;
+}
+
+.errorState {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 2rem;
+  border-radius: var(--radius-xl);
+  color: #ef4444;
+  text-align: center;
+  backdrop-filter: blur(4px);
+}
+
+.emptyState {
+  background: rgba(var(--color-surface-rgb), 0.2);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: 8rem 2rem;
+  color: var(--color-text-muted);
+}
+
+.emptyState h3 {
+  margin: 1.5rem 0 0.5rem 0;
+  color: var(--color-text-primary);
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+  .requestsGrid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+    padding-top: 2rem;
+  }
+
+  .header {
+    margin-bottom: 2rem;
+  }
+
+  .titleSection h1 {
+    font-size: 1.75rem;
+  }
+
+  .titleSection p {
+    font-size: 0.95rem;
+  }
+
+  .iconWrapper {
+    width: 48px;
+    height: 48px;
+  }
+
+  .iconWrapper svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .controls {
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+  }
+
+  .tabs {
+    background: transparent;
+    padding: 0.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1;
+    white-space: nowrap;
+    padding: 0.6rem;
+    font-size: 0.85rem;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+  }
+
+  .activeTab {
+    background: rgba(var(--color-text-primary-rgb), 0.05);
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+    box-shadow: none;
+  }
+
+  .activeTab::after {
+    display: none;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .searchWrapper {
+    max-width: none;
+    width: 100%;
+  }
+
+  .dashboardSearchBar {
+    font-size: 0.9rem;
+  }
+}

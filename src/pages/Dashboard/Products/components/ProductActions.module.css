@@ -1,0 +1,117 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.trigger {
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  opacity: 1;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trigger:hover,
+.trigger.active {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.menu {
+  width: 200px;
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.menuHeader {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.actionsList {
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.actionItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.8rem;
+  background: none;
+  border: none;
+  border-radius: var(--radius-md);
+  color: #eeeeee;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: not-allowed;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.actionItem:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.actionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  width: 20px;
+}
+
+.danger .actionIcon,
+.danger .actionLabel {
+  color: #ff5f5f;
+}
+
+.soonBadge {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+}
+
+.actionItem:disabled {
+  opacity: 0.5;
+}
+
+:global([data-theme="dark"]) .menu {
+  background: rgba(10, 10, 10, 0.95);
+}
+
+:global([data-theme="light"]) .menu {
+  background: #111111; 
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}

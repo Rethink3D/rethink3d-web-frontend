@@ -21,7 +21,7 @@ export const MakerCTASection: React.FC = () => {
           </p>
           <Button
             onClick={() =>
-              window.open("https://dashboard.rethink3d.com.br", "_blank")
+              window.open("https://rethink3d.com.br/login", "_blank")
             }
             className="w-full"
           >

@@ -3,60 +3,55 @@
   overflow-x: clip;
 }
 
+
 .hero {
   position: relative;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  min-height: 100dvh;
   padding-top: 60px;
-}
-
-.heroBackground {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.heroContent {
-  position: relative;
-  z-index: 10;
   max-width: 1400px;
   width: 100%;
-  padding: 0 2rem;
-  margin-bottom: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.heroGrid {
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  grid-template-areas:
+    "header visual"
+    "marquee marquee";
   align-items: center;
-  width: 100%;
+  gap: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
-.heroText {
+.heroHeader {
+  grid-area: header;
   text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  z-index: 10;
 }
 
 .heroVisual {
+  grid-area: visual;
   width: 100%;
-  height: 100%;
+  height: 650px;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 5;
 }
+
+.marqueeSection {
+  grid-area: marquee;
+  position: relative;
+  z-index: 5;
+  padding-bottom: 2rem;
+  margin-top: 2rem;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
 
 .hero h1 {
   font-family: var(--font-display);
@@ -105,6 +100,7 @@
   max-width: 600px;
   line-height: 1.5;
 }
+
 
 .heroActions {
   display: flex;
@@ -168,20 +164,6 @@
   font-weight: 600;
 }
 
-.marqueeSection {
-  width: 100%;
-  position: relative;
-  z-index: 5;
-  margin-top: 0;
-  margin-top: 0;
-  padding-bottom: 2rem;
-}
-
-@media (min-width: 769px) {
-  .marqueeSection {
-    margin-top: 4rem;
-  }
-}
 
 .miniCard {
   width: 320px;
@@ -234,70 +216,64 @@
   font-weight: 500;
 }
 
-.features {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 6rem 1.5rem;
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
-  border-radius: 20px;
-  margin-bottom: 4rem;
+
+@media (max-width: 768px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+    padding-top: 80px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    gap: 0;
+  }
+
+  .heroHeader {
+    order: 1;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .marqueeSection {
+    order: 2;
+    width: 100vw;
+    margin-left: -1.5rem;
+    padding-bottom: 2rem;
+    margin-top: 1rem;
+  }
+
+  .heroVisual {
+    order: 3;
+    height: 400px;
+    margin-bottom: 3rem;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    word-break: break-word;
+  }
+
+  .heroActions {
+    justify-content: center;
+    gap: 1rem;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .heroActions button {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
-.featuresHeader {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
-.featuresHeader h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.featuresHeader p {
-  color: var(--color-text-secondary);
-  font-size: 1.125rem;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-.featureCard {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 2.5rem !important;
-  cursor: pointer;
-}
-
-.iconWrapper {
-  width: 60px;
-  height: 60px;
-  background-color: var(--color-secondary);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.5rem;
-}
-
-.linkText {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  margin-top: auto;
-  padding-top: 1rem;
-}
 
 .cta {
   padding: 6rem 1.5rem;
   background-color: transparent;
   text-align: center;
-  backdrop-filter: blur(5px);
 }
 
 .ctaContent {
@@ -369,48 +345,4 @@
 .ctaButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2.5rem;
-    word-break: break-word;
-  }
-
-  .heroVisual {
-    overflow: hidden;
-  }
-
-  .heroGrid {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 2rem;
-  }
-
-  .heroText {
-    align-items: center;
-    text-align: center;
-  }
-
-  .heroActions {
-    justify-content: center;
-    gap: 1rem;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .heroActions button {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .heroVisual {
-    height: 450px;
-    margin-bottom: 2rem;
-    overflow: visible;
-  }
-
-  .marqueeSection {
-    padding-bottom: 1rem;
-  }
 }
