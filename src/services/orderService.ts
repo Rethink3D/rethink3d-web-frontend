@@ -3,7 +3,7 @@ import type {
   OrderPreviewDTO,
   OrderTypeEnum,
   OrderDetailsDTO,
-} from "../types/dtos";
+} from "../types/dtos/order";
 
 export const orderService = {
   getMakerOrders: async (type?: OrderTypeEnum): Promise<OrderPreviewDTO[]> => {

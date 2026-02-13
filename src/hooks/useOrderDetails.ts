@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import orderService from "../services/orderService";
-import type { OrderDetailsDTO } from "../types/dtos";
+import type { OrderDetailsDTO } from "../types/dtos/order";
 
 export const useOrderDetails = (orderId: string | undefined) => {
   const [order, setOrder] = useState<OrderDetailsDTO | null>(null);

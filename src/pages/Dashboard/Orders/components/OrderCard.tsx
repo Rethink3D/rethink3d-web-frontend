@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  ArrowRight,
-  Package,
-  Clock,
-  CheckCircle2,
-  AlertTriangle,
-  CreditCard,
-  Truck,
-} from "lucide-react";
-import type { OrderPreviewDTO } from "../../../../types/dtos";
+import { ArrowRight, Package, AlertTriangle } from "lucide-react";
+import type { OrderPreviewDTO } from "../../../../types/dtos/order";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import { getImageUrl } from "../../../../utils/imageUtil";
 import { parseBackendDate } from "../../../../utils/dateUtil";
+import { getOrderStatusConfig } from "../../../../utils/orderStatusUtil";
 import styles from "./OrderCard.module.css";
 
 interface OrderCardProps {
@@ -19,46 +12,9 @@ interface OrderCardProps {
   onClick?: () => void;
 }
 
-const statusConfig: Record<string, { label: string; icon: React.ReactNode }> = {
-  awaiting_payment: {
-    label: "Aguardando Pagamento",
-    icon: <CreditCard size={14} />,
-  },
-  awaiting_maker: { label: "Novo Pedido", icon: <Package size={14} /> },
-  on_going: { label: "Em Produção", icon: <Clock size={14} /> },
-  ready: { label: "Pronto para Entrega", icon: <Truck size={14} /> },
-  delayed: { label: "Atrasado", icon: <AlertTriangle size={14} /> },
-  new_deadline: { label: "Novo Prazo Solicitado", icon: <Clock size={14} /> },
-  awaiting_confirmation: {
-    label: "Aguardando Confirmação",
-    icon: <CheckCircle2 size={14} />,
-  },
-  refund_in_analysis: {
-    label: "Reembolso em Análise",
-    icon: <AlertTriangle size={14} />,
-  },
-  refund_in_process: {
-    label: "Reembolso em Processamento",
-    icon: <CreditCard size={14} />,
-  },
-  partial_refund_in_process: {
-    label: "Reembolso Parcial em Processamento",
-    icon: <CreditCard size={14} />,
-  },
-  partial_refund: {
-    label: "Reembolso Parcial",
-    icon: <CheckCircle2 size={14} />,
-  },
-  refunded: { label: "Reembolsado", icon: <CheckCircle2 size={14} /> },
-  done: { label: "Finalizado", icon: <CheckCircle2 size={14} /> },
-};
-
 export const OrderCard: React.FC<OrderCardProps> = React.memo(
   ({ order, onClick }) => {
-    const statusInfo = statusConfig[order.status] || {
-      label: order.status,
-      icon: <Package size={14} />,
-    };
+    const statusInfo = getOrderStatusConfig(order.status);
 
     const formattedDate = new Intl.DateTimeFormat("pt-BR", {
       day: "2-digit",
@@ -121,7 +77,7 @@ export const OrderCard: React.FC<OrderCardProps> = React.memo(
                 </div>
               )}
               <div className={`${styles.statusBadge} ${styles[order.status]}`}>
-                {statusInfo.icon}
+                {statusInfo.icon(14)}
                 <span>{statusInfo.label}</span>
               </div>
             </div>

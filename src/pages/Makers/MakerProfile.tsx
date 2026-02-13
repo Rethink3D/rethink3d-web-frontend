@@ -19,6 +19,7 @@ import { Button } from "../../components/ui/Button";
 import { ProductGrid } from "./components/ProductGrid";
 import { getImageUrl } from "../../utils/imageUtil";
 import { translateService } from "../../utils/translationUtil";
+import { trackMakerView, trackDownloadCTA } from "../../utils/analytics";
 import styles from "./MakerProfile.module.css";
 
 const MakerProfile: React.FC = () => {
@@ -35,6 +36,8 @@ const MakerProfile: React.FC = () => {
         try {
           const data = await makerService.getMakerById(id);
           setMaker(data);
+          // Rastrear visualização do perfil do maker
+          trackMakerView(id, data.name || "Maker sem nome");
         } catch (error) {
           console.error("Failed to fetch maker", error);
         } finally {
@@ -161,6 +164,7 @@ const MakerProfile: React.FC = () => {
                 fullWidth
                 size="lg"
                 onClick={() => {
+                  trackDownloadCTA("quote", "maker_page");
                   navigate("/");
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}

@@ -7,13 +7,13 @@ import { ScrollToTop } from "./components/utils/ScrollToTop";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import { MakerDashboardLayout } from "./components/layout/MakerDashboardLayout";
 
-const Home = lazy(() => import("./pages/Home"));
+const Home = lazy(() => import("./pages/Home/Home"));
 const ProductCatalog = lazy(() => import("./pages/Products/ProductCatalog"));
 const MakerCatalog = lazy(() => import("./pages/Makers/MakerCatalog"));
 const MakerProfile = lazy(() => import("./pages/Makers/MakerProfile"));
 const ProductDetails = lazy(() => import("./pages/Products/ProductDetails"));
-const Contact = lazy(() => import("./pages/Contact"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const Contact = lazy(() => import("./pages/Contact/Contact"));
+const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
 const DashboardStore = lazy(() => import("./pages/Dashboard/Store/index"));
@@ -32,6 +32,13 @@ const DashboardOrderDetails = lazy(
 const DashboardRequestDetails = lazy(
   () => import("./pages/Dashboard/Requests/RequestDetails"),
 );
+
+const AccountDeletion = lazy(
+  () => import("./pages/AccountDeletion/AccountDeletion"),
+);
+const PrivacyPolicy = lazy(() => import("./pages/Legal/PrivacyPolicy"));
+const TermsOfUse = lazy(() => import("./pages/Legal/TermsOfUse"));
+const MakerTerms = lazy(() => import("./pages/Legal/MakerTerms"));
 
 const PageLoader = () => <PrinterLoader />;
 
@@ -99,6 +106,46 @@ export const AppRoutes = () => {
               <Suspense fallback={<PageLoader />}>
                 <PageTransition>
                   <Contact />
+                </PageTransition>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/delete-account"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <PageTransition>
+                  <AccountDeletion />
+                </PageTransition>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/privacy"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <PageTransition>
+                  <PrivacyPolicy />
+                </PageTransition>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/terms"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <PageTransition>
+                  <TermsOfUse />
+                </PageTransition>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/maker-terms"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <PageTransition>
+                  <MakerTerms />
                 </PageTransition>
               </Suspense>
             }

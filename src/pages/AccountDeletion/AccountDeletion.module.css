@@ -1,0 +1,185 @@
+.section {
+  padding: 180px 1.5rem 120px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1000px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.highlight {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-text-primary);
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: "CONTA.";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-text-primary);
+  width: 0%;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: fillText 4s infinite alternate;
+}
+
+@keyframes fillText {
+  0% {
+    width: 0%;
+  }
+  50%,
+  100% {
+    width: 100%;
+  }
+}
+
+.contentCard {
+  background: rgba(var(--color-surface-rgb), 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 32px;
+  padding: 4rem;
+  width: 100%;
+  text-align: center;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+:global([data-theme="light"]) .contentCard {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.contentCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(var(--color-text-primary-rgb), 0.2);
+}
+
+.iconWrapper {
+  width: 80px;
+  height: 80px;
+  background: rgba(var(--color-text-primary-rgb), 0.05);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  color: var(--color-text-primary);
+}
+
+.paragraph {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.emailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  background: var(--color-text-primary);
+  color: var(
+    --color-secondary
+  ); /* This uses the surface/background color of the theme */
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: 1rem 0 3rem;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+:global([data-theme="light"]) .emailLink {
+  background: #000000;
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .emailLink {
+  background: #ffffff;
+  color: #000000;
+}
+
+.emailLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.decoration {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(var(--color-primary-rgb), 0.1) 0%,
+    transparent 70%
+  );
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding-top: 100px;
+  }
+
+  .contentCard {
+    padding: 2.5rem 1.5rem;
+    border-radius: 24px;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .paragraph {
+    font-size: 1.1rem;
+  }
+
+  .emailLink {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    width: 100%;
+    justify-content: center;
+  }
+}

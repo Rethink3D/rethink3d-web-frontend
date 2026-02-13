@@ -1,5 +1,5 @@
 import api from "./api";
-import type { ProductPreviewDTO, ProductPageDTO } from "../types/dtos";
+import type { ProductPreviewDTO, ProductPageDTO } from "../types/dtos/product";
 
 export const productService = {
   getProducts: async (): Promise<ProductPreviewDTO[]> => {

@@ -130,12 +130,20 @@
 
   .container {
     padding: 1.5rem 1rem;
+    width: 100%;
+    overflow-x: hidden;
   }
 }
 
 @media (max-width: 480px) {
   .container {
     padding: 1rem 0.75rem;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .mainSection {
+    gap: 1.5rem;
   }
 
   .randomSection {

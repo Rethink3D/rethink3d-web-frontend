@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/useAuth";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import { PrinterViewer } from "../../components/ui/PrinterViewer";
 import styles from "./Login.module.css";
@@ -16,6 +17,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const { signIn, signInWithGoogle, signInWithApple } = useAuth();
   const navigate = useNavigate();
 
@@ -38,10 +40,25 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!executeRecaptcha) {
+      setError(
+        "ReCAPTCHA ainda não está pronto. Tente novamente em instantes.",
+      );
+      return;
+    }
+
     setError(null);
     setIsSubmitting(true);
 
     try {
+      const token = await executeRecaptcha("login");
+      if (!token) {
+        setError("Falha na verificação de bot. Tente novamente.");
+        setIsSubmitting(false);
+        return;
+      }
+
       await signIn(email, password);
       navigate("/dashboard");
     } catch (err: unknown) {
@@ -135,6 +152,26 @@ const Login: React.FC = () => {
               {isSubmitting ? "Entrando..." : "Entrar"}
               {!isSubmitting && <ArrowRight size={18} />}
             </button>
+
+            <p className={styles.recaptchaTerms}>
+              Este site é protegido pelo reCAPTCHA e a{" "}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Política de Privacidade
+              </a>{" "}
+              e os{" "}
+              <a
+                href="https://policies.google.com/terms"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Termos de Serviço
+              </a>{" "}
+              do Google se aplicam.
+            </p>
 
             <div className={styles.separator}>
               <span>Ou continue com</span>

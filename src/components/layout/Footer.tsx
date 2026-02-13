@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import { Mail, Instagram } from "lucide-react";
 import styles from "./Footer.module.css";
 
@@ -14,17 +14,18 @@ export const Footer: React.FC = () => {
         <div className={styles.links}>
           <div className={styles.column}>
             <h4>Navegação</h4>
-            <a href="/">Home</a>
-            <a href="/products">Produtos</a>
-            <a href="/makers">Makers</a>
-            <a href="/contact">Contato</a>
+            <Link to="/">Home</Link>
+            <Link to="/products">Produtos</Link>
+            <Link to="/makers">Makers</Link>
+            <Link to="/contact">Contato</Link>
           </div>
 
           <div className={styles.column}>
             <h4>Legal</h4>
-            <a href="/terms">Termos de Uso</a>
-            <a href="/privacy">Privacidade</a>
-            <a href="/delete-account">Exclusão de Conta</a>
+            <Link to="/terms">Termos de Uso</Link>
+            <Link to="/privacy">Privacidade</Link>
+            <Link to="/maker-terms">Termos de Maker</Link>
+            <Link to="/delete-account">Exclusão de Conta</Link>
           </div>
 
           <div className={`${styles.column} ${styles.contactColumn}`}>

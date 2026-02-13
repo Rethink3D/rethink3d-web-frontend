@@ -26,7 +26,6 @@
   color: var(--color-text-secondary);
 }
 
-
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -83,7 +82,6 @@
   color: var(--color-text-secondary);
   margin: 0;
 }
-
 
 .actionsGrid {
   display: grid;
@@ -146,7 +144,6 @@
   color: var(--color-text-primary);
 }
 
-
 .mainGrid {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
@@ -176,72 +173,6 @@
   background: transparent;
   border-radius: 8px;
   border: 1px dashed var(--color-border);
-}
-
-
-.orderItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  transition:
-    background 0.2s,
-    border-color 0.2s;
-  cursor: pointer;
-}
-
-.orderItem:hover {
-  background: rgba(var(--color-text-primary-rgb), 0.05);
-  border-color: var(--color-text-primary);
-}
-
-.orderInfo h4 {
-  margin: 0 0 0.25rem 0;
-  font-size: 0.9rem;
-  color: var(--color-text-primary);
-}
-
-.orderDate {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.orderStatus {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 99px;
-  background: transparent;
-  color: var(--color-text-secondary);
-  border: 1px solid var(--color-border);
-  white-space: nowrap;
-}
-
-.status_active {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
-  border-color: rgba(59, 130, 246, 0.2);
-}
-.status_pending {
-  background: rgba(234, 179, 8, 0.1);
-  color: #eab308;
-  border-color: rgba(234, 179, 8, 0.2);
-}
-.status_delayed {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border-color: rgba(239, 68, 68, 0.2);
-  font-weight: 600;
-}
-.status_completed {
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
-  border-color: rgba(34, 197, 94, 0.2);
 }
 
 @media (max-width: 1024px) {

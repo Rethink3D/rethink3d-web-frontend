@@ -12,7 +12,6 @@
   position: relative;
   box-shadow: var(--shadow-md);
   height: 400px;
-  
 }
 
 .scrollContainer {
@@ -23,11 +22,11 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  scrollbar-width: none; 
+  scrollbar-width: none;
 }
 
 .scrollContainer::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
 .scrollImageWrapper {
@@ -74,7 +73,7 @@
   justify-content: center;
   cursor: pointer;
   transition: background 0.2s;
-  z-index: 2; 
+  z-index: 2;
 }
 
 .prevButton {
@@ -92,7 +91,7 @@
   transform: translateX(-50%);
   display: flex;
   gap: 0.5rem;
-  z-index: 3; 
+  z-index: 3;
   padding: 0.25rem 0.5rem;
   background: rgba(0, 0, 0, 0.1);
   border-radius: var(--radius-full);
@@ -143,38 +142,44 @@
   border-color: var(--color-primary);
 }
 
+.thumbnails {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 @media (max-width: 768px) {
   .navButton {
     display: none;
   }
 
   .mainImageContainer {
-    height: 350px;
-    justify-content: center; 
+    height: 250px;
+    justify-content: center;
   }
 
-  
-
   .mainImage {
-    max-height: 350px;
+    max-height: 250px;
+    width: 100%;
   }
 
   .imagePlaceholder {
-    height: 350px;
+    height: 250px;
   }
 }
 
 @media (max-width: 480px) {
   .mainImageContainer {
-    height: 300px;
+    height: 220px;
   }
 
   .mainImage {
-    max-height: 300px;
+    max-height: 220px;
+    width: 100%;
   }
 
   .imagePlaceholder {
-    height: 300px;
+    height: 220px;
   }
 
   .thumbnails {

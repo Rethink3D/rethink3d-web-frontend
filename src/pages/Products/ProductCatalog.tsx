@@ -7,6 +7,7 @@ import { ProductCard } from "./components/ProductCard";
 import { SearchBar } from "../../components/ui/SearchBar";
 import { FilterSidebar } from "./components/CategoryFilter";
 import { useProductFilters } from "../../hooks/useProductFilters";
+import { trackProductCatalogView } from "../../utils/analytics";
 import styles from "./ProductCatalog.module.css";
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -48,6 +49,8 @@ const ProductCatalog: React.FC = () => {
   };
 
   useEffect(() => {
+    trackProductCatalogView();
+
     const fetchProducts = async () => {
       try {
         const data = await productService.getProducts();

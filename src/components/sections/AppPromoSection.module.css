@@ -272,35 +272,66 @@
   color: #fff;
   text-decoration: none;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .storeBtn:hover {
   background-color: #111;
   transform: translateY(-2px);
   border-color: #444;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
 
 .storeBtn svg {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   fill: currentColor;
 }
 
 .storeText {
   display: flex;
   flex-direction: column;
-  line-height: 1.1;
+  line-height: 1;
   text-align: left;
 }
 
 .storeText span:first-child {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   opacity: 0.8;
 }
 
 .storeText span:last-child {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .storeButtons {
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .storeBtn {
+    padding: 0.5rem 0.75rem;
+    gap: 0.4rem;
+    flex: 1;
+    max-width: 160px;
+  }
+
+  .storeBtn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .storeText span:first-child {
+    font-size: 0.6rem;
+  }
+
+  .storeText span:last-child {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 900px) {

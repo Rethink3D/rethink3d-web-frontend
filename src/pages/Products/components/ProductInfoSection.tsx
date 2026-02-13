@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ShoppingBag, Check } from "lucide-react";
 import { Button } from "../../../components/ui/Button";
 import { getImageUrl } from "../../../utils/imageUtil";
+import { trackMakerClick, trackDownloadCTA } from "../../../utils/analytics";
 import styles from "./ProductInfoSection.module.css";
 import type { ProductPageDTO } from "../../../types/dtos";
 
@@ -32,7 +33,14 @@ export const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({
       {product.maker && (
         <div
           className={styles.makerInfo}
-          onClick={() => navigate(`/makers/${product.maker.id}`)}
+          onClick={() => {
+            trackMakerClick(
+              product.maker.id,
+              product.maker.name,
+              "product_page",
+            );
+            navigate(`/makers/${product.maker.id}`);
+          }}
           title="Ver perfil do Maker"
         >
           <img
@@ -88,6 +96,7 @@ export const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({
           fullWidth
           size="lg"
           onClick={() => {
+            trackDownloadCTA("order", "product_page");
             navigate("/");
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}

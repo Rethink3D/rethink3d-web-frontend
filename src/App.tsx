@@ -3,6 +3,7 @@ import { Layout } from "./components/layout/Layout";
 import { AppRoutes } from "./AppRoutes";
 import { useState, useEffect } from "react";
 import { PrinterLoader } from "./components/ui/PrinterLoader";
+import { CookieConsent } from "./components/CookieConsent";
 
 function App() {
   const [initialLoad, setInitialLoad] = useState(true);
@@ -23,6 +24,7 @@ function App() {
       <Layout>
         <AppRoutes />
       </Layout>
+      <CookieConsent />
     </Router>
   );
 }

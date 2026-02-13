@@ -1,9 +1,20 @@
+import { useEffect } from "react";
 import { Mail, Instagram, MessageCircle } from "lucide-react";
-import { Button } from "../components/ui/Button";
-import { Card } from "../components/ui/Card";
+import { Button } from "../../components/ui/Button";
+import { Card } from "../../components/ui/Card";
+import {
+  trackContactView,
+  trackContactEmailClick,
+  trackContactInstagramClick,
+  trackContactSupportClick,
+} from "../../utils/analytics";
 import styles from "./Contact.module.css";
 
 const Contact: React.FC = () => {
+  useEffect(() => {
+    trackContactView();
+  }, []);
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -24,9 +35,8 @@ const Contact: React.FC = () => {
           <Button
             variant="outline"
             className={styles.contactButton}
-            onClick={() =>
-              (window.location.href = "mailto:contato@rethink3d.com.br")
-            }
+            href="mailto:contato@rethink3d.com.br"
+            onClick={() => trackContactEmailClick()}
           >
             Enviar Mensagem
           </Button>
@@ -41,9 +51,9 @@ const Contact: React.FC = () => {
           <Button
             variant="outline"
             className={styles.contactButton}
-            onClick={() =>
-              window.open("https://instagram.com/_rethink3d", "_blank")
-            }
+            href="https://instagram.com/_rethink3d"
+            target="_blank"
+            onClick={() => trackContactInstagramClick()}
           >
             Seguir Perfil
           </Button>
@@ -58,7 +68,9 @@ const Contact: React.FC = () => {
           <Button
             variant="outline"
             className={styles.contactButton}
-            onClick={() => window.open("https://tally.so/r/Bzkae7", "_blank")}
+            href="https://tally.so/r/Bzkae7"
+            target="_blank"
+            onClick={() => trackContactSupportClick()}
           >
             Abrir Chamado
           </Button>

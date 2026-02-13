@@ -1,5 +1,5 @@
 import api from "./api";
-import type { MakerPreviewDTO, MakerPageDTO } from "../types/dtos";
+import type { MakerPreviewDTO, MakerPageDTO } from "../types/dtos/maker";
 
 export const makerService = {
   getMakers: async (): Promise<MakerPreviewDTO[]> => {

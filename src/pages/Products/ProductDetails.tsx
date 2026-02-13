@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "../../components/ui/Button";
@@ -6,6 +6,7 @@ import { useProductDetails } from "../../hooks/useProductDetails";
 import { ImageGallery } from "./components/ImageGallery";
 import { ProductInfoSection } from "./components/ProductInfoSection";
 import { ProductCarousel } from "./components/ProductCarousel";
+import { trackProductView } from "../../utils/analytics";
 import styles from "./ProductDetails.module.css";
 import type { ProductPreviewDTO } from "../../types/dtos";
 
@@ -13,6 +14,13 @@ const ProductDetails: React.FC = () => {
   const navigate = useNavigate();
   const { product, makerProducts, randomProducts, loading } =
     useProductDetails();
+
+  // Rastrear visualização do produto quando carregado
+  useEffect(() => {
+    if (product) {
+      trackProductView(product.id, product.name, product.price);
+    }
+  }, [product]);
 
   if (loading) {
     return (

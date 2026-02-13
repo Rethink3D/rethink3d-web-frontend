@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import { GridBackground } from "../components/ui/GridBackground";
+import { Button } from "../../components/ui/Button";
+import { GridBackground } from "../../components/ui/GridBackground";
 import styles from "./NotFound.module.css";
-import { MouseTrace } from "../components/ui/MouseTrace";
+import { MouseTrace } from "../../components/ui/MouseTrace";
 
 const NotFound = () => {
   const navigate = useNavigate();

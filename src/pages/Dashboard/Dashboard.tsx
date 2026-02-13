@@ -1,13 +1,11 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Package,
   Plus,
   Store,
   CreditCard,
-  ChevronRight,
   TrendingUp,
-  Calendar,
   Truck,
   Box,
   MessageSquare,
@@ -16,51 +14,15 @@ import { useAuth } from "../../context/useAuth";
 import { Card } from "../../components/ui/Card";
 import { PrinterLoader } from "../../components/ui/PrinterLoader";
 import { useDashboardData } from "../../hooks/useDashboardData";
-import { parseBackendDate } from "../../utils/dateUtil";
 import styles from "./Dashboard.module.css";
 import { RequestCard } from "./Requests/components/RequestCard";
 
-const getStatusColor = (status: string) => {
-  if (["on_going", "ready", "done", "awaiting_confirmation"].includes(status))
-    return styles.status_active;
-  if (["awaiting_maker", "new_deadline"].includes(status))
-    return styles.status_pending;
-  if (status === "delayed") return styles.status_delayed;
-  return "";
-};
-
-const translateStatus = (status: string) => {
-  const statusMap: Record<string, string> = {
-    awaiting_payment: "Aguardando Pagamento",
-    awaiting_maker: "Aguardando Maker",
-    on_going: "Em Produção",
-    delayed: "Atrasado",
-    new_deadline: "Novo Prazo",
-    ready: "Pronto para Envio",
-    awaiting_confirmation: "Aguardando Confirmação",
-    refund_in_analysis: "Reembolso em Análise",
-    refund_in_process: "Reembolso em Processamento",
-    partial_refund_in_process: "Reembolso Parcial em Proc.",
-    partial_refund: "Reembolso Parcial",
-    refunded: "Reembolsado",
-    done: "Concluído",
-  };
-  return statusMap[status] || status.replace("_", " ");
-};
+import { OrderListItem } from "./components/OrderListItem";
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const { profile, stats, recentOrders, recentRequests, loading } =
     useDashboardData();
-
-  const formatDate = (dateString: string | undefined | null) => {
-    const date = parseBackendDate(dateString);
-    return date.toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "short",
-    });
-  };
 
   if (loading) {
     return <PrinterLoader />;
@@ -179,25 +141,7 @@ const Dashboard: React.FC = () => {
           <div className={styles.recentList}>
             {recentOrders.length > 0 ? (
               recentOrders.map((order) => (
-                <div
-                  key={order.id}
-                  className={styles.orderItem}
-                  onClick={() => navigate(`/dashboard/orders/${order.id}`)}
-                >
-                  <div className={styles.orderInfo}>
-                    <h4>Pedido #{order.id.slice(0, 8)}</h4>
-                    <div className={styles.orderDate}>
-                      <Calendar size={12} />
-                      {formatDate(order.creationTime)}
-                    </div>
-                  </div>
-                  <span
-                    className={`${styles.orderStatus} ${getStatusColor(order.status)}`}
-                  >
-                    {translateStatus(order.status)}
-                  </span>
-                  <ChevronRight size={16} color="#666" />
-                </div>
+                <OrderListItem key={order.id} order={order} />
               ))
             ) : (
               <div className={styles.emptyState}>

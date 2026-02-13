@@ -6,24 +6,9 @@ import { OrderCard } from "./components/OrderCard";
 import { PrinterLoader } from "../../../components/ui/PrinterLoader";
 import styles from "./Orders.module.css";
 
-const statusOptions = [
-  { value: "", label: "Todos os status" },
-  { value: "awaiting_maker", label: "Novo Pedido" },
-  { value: "on_going", label: "Em Produção" },
-  { value: "ready", label: "Pronto para Entrega" },
-  { value: "awaiting_confirmation", label: "Aguardando Confirmação" },
-  { value: "new_deadline", label: "Novo Prazo Solicitado" },
-  { value: "refund_in_analysis", label: "Reembolso em Análise" },
-  { value: "refund_in_process", label: "Reembolso em Processamento" },
-  {
-    value: "partial_refund_in_process",
-    label: "Reembolso Parcial em Processamento",
-  },
-  { value: "partial_refund", label: "Reembolso Parcial" },
-  { value: "refunded", label: "Reembolsado" },
-  { value: "done", label: "Finalizado" },
-  { value: "delayed", label: "Atrasado" },
-];
+import { getOrderStatusOptions } from "../../../utils/orderStatusUtil";
+
+const statusOptions = getOrderStatusOptions();
 
 const DashboardOrders: React.FC = () => {
   const navigate = useNavigate();

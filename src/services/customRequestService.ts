@@ -1,5 +1,8 @@
 import api from "./api";
-import type { CustomRequestDTO, CustomRequestDetailsDTO } from "../types/dtos";
+import type {
+  CustomRequestDTO,
+  CustomRequestDetailsDTO,
+} from "../types/dtos/request";
 
 export const customRequestService = {
   getGlobalRequests: async (): Promise<CustomRequestDTO[]> => {

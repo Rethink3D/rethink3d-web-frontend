@@ -1,26 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import classNames from "classnames";
+import { Package, Plus, AlertCircle } from "lucide-react";
 import { useMakerData } from "../../../hooks/useMakerData";
 import { useMakerProductFilters } from "../../../hooks/useMakerProductFilters";
-import { getImageUrl } from "../../../utils/imageUtil";
-import { formatCurrency } from "../../../utils/formatCurrency";
-import {
-  Package,
-  Plus,
-  AlertCircle,
-  Eye,
-  EyeOff,
-  Settings,
-} from "lucide-react";
 import { SearchBar } from "../../../components/ui/SearchBar";
 import { FilterSidebar } from "../../Products/components/CategoryFilter";
-import { ProductActions } from "./components/ProductActions";
-import styles from "./Products.module.css";
+import { MakerProductCard } from "./components/MakerProductCard";
 import { PrinterLoader } from "../../../components/ui/PrinterLoader";
+import styles from "./Products.module.css";
 
 const DashboardProducts: React.FC = () => {
-  const navigate = useNavigate();
   const { maker, loading, error } = useMakerData();
   const {
     searchText,
@@ -132,57 +120,7 @@ const DashboardProducts: React.FC = () => {
       {filteredProducts.length > 0 ? (
         <div className={styles.productGrid}>
           {filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className={styles.productCard}
-              onClick={() => navigate(`/products/${product.id}`)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className={styles.imageWrapper}>
-                <img
-                  src={getImageUrl(product.imageUrl)}
-                  alt={product.name}
-                  className={styles.productImage}
-                />
-                <div className={styles.productCardOverlay}>
-                  <div className={styles.viewProductBtn}>
-                    <Eye size={18} />
-                    <span>Ver Produto</span>
-                  </div>
-                </div>
-                <div
-                  className={classNames(styles.statusBadge, {
-                    [styles.active]: product.isActive,
-                    [styles.inactive]: !product.isActive,
-                  })}
-                >
-                  {product.isActive ? <Eye size={12} /> : <EyeOff size={12} />}
-                  <span>{product.isActive ? "Ativo" : "Pausado"}</span>
-                </div>
-              </div>
-              <div className={styles.productInfo}>
-                <div className={styles.productHeader}>
-                  <h3 className={styles.productName}>{product.name}</h3>
-                  <div onClick={(e) => e.stopPropagation()}>
-                    <ProductActions isActive={product.isActive} />
-                  </div>
-                </div>
-                <p className={styles.productDescription}>
-                  {product.description}
-                </p>
-                <div className={styles.productFooter}>
-                  <span className={styles.price}>
-                    {formatCurrency(product.price)}
-                  </span>
-                  {product.isPersonalizable && (
-                    <div className={styles.personalizableTag}>
-                      <Settings size={12} />
-                      <span>Personalizável</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+            <MakerProductCard key={product.id} product={product} />
           ))}
         </div>
       ) : (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Sun, Moon, Zap, ZapOff } from "lucide-react";
+import { Menu, X, Sun, Moon, Zap, ZapOff, LogOut } from "lucide-react";
 import classNames from "classnames";
 import { useTheme } from "../../hooks/useTheme";
 import { useSettings } from "../../context/useSettings";
@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { isAnimationEnabled, toggleAnimation } = useSettings();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, signOut } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -210,13 +210,30 @@ export const Navbar: React.FC = () => {
                     </button>
 
                     {isAuthenticated ? (
-                      <Link
-                        to="/dashboard"
-                        className={styles.mobileMakerBtn}
-                        onClick={() => setIsOpen(false)}
-                      >
-                        Dashboard
-                      </Link>
+                      <>
+                        <Link
+                          to="/dashboard"
+                          className={styles.mobileMakerBtn}
+                          onClick={() => setIsOpen(false)}
+                        >
+                          Dashboard
+                        </Link>
+                        <button
+                          className={styles.themeToggleMobile}
+                          style={{
+                            marginTop: "-0.5rem",
+                            background: "rgba(239, 68, 68, 0.1)",
+                            color: "#ef4444",
+                          }}
+                          onClick={() => {
+                            signOut();
+                            setIsOpen(false);
+                          }}
+                        >
+                          <span>Sair da Conta</span>
+                          <LogOut size={20} />
+                        </button>
+                      </>
                     ) : (
                       <Link
                         to="/login"

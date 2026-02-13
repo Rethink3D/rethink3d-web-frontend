@@ -7,6 +7,7 @@ import { MakerCard } from "./components/MakerCard";
 import { SearchBar } from "../../components/ui/SearchBar";
 import { MakerFilterSidebar } from "./components/MakerFilter";
 import { useMakerFilters } from "../../hooks/useMakerFilters";
+import { trackMakerCatalogView } from "../../utils/analytics";
 import styles from "./MakerCatalog.module.css";
 
 const MakerCatalog: React.FC = () => {
@@ -31,6 +32,8 @@ const MakerCatalog: React.FC = () => {
   };
 
   useEffect(() => {
+    trackMakerCatalogView();
+
     const fetchMakers = async () => {
       try {
         const data = await makerService.getMakers();

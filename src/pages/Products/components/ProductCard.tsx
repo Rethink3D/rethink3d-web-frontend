@@ -3,6 +3,7 @@ import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { getImageUrl } from "../../../utils/imageUtil";
 import { PersonalizableBadge } from "./PersonalizableBadge";
+import { trackProductClick } from "../../../utils/analytics";
 import styles from "./ProductCard.module.css";
 
 interface ProductCardProps {
@@ -23,8 +24,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     }).format(price);
   };
 
+  const handleClick = () => {
+    trackProductClick(product.id, product.name, "catalog");
+    onClick?.();
+  };
+
   return (
-    <Card className={styles.productCard} onClick={onClick}>
+    <Card className={styles.productCard} onClick={handleClick}>
       <div className={styles.imageContainer}>
         <img
           src={getImageUrl(product.imageUrl)}

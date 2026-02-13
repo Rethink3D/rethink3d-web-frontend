@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,3 +14,17 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+
+const hasUserConsent = (): boolean => {
+  if (typeof window === "undefined") return false;
+  const consent = localStorage.getItem("rethink3d_cookie_consent");
+  return consent === "accepted";
+};
+
+export const analytics =
+  typeof window !== "undefined" &&
+  window.location.hostname !== "localhost" &&
+  window.location.hostname !== "127.0.0.1" &&
+  hasUserConsent()
+    ? getAnalytics(app)
+    : null;

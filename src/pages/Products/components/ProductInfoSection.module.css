@@ -108,6 +108,9 @@
   line-height: 1.7;
   color: var(--color-text-secondary);
   font-size: 1.05rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .tags {
