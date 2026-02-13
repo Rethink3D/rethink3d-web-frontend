@@ -3,7 +3,6 @@
   overflow-x: clip;
 }
 
-
 .hero {
   position: relative;
   min-height: 100vh;
@@ -19,8 +18,20 @@
     "marquee marquee";
   align-items: center;
   gap: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding: 60px 2rem 0;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
 }
 
 .heroHeader {
@@ -50,8 +61,18 @@
   margin-top: 2rem;
   width: 100vw;
   margin-left: calc(50% - 50vw);
+  min-height: 320px;
 }
 
+.printerPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 70%
+  );
+}
 
 .hero h1 {
   font-family: var(--font-display);
@@ -100,7 +121,6 @@
   max-width: 600px;
   line-height: 1.5;
 }
-
 
 .heroActions {
   display: flex;
@@ -164,7 +184,6 @@
   font-weight: 600;
 }
 
-
 .miniCard {
   width: 320px;
   height: 120px;
@@ -216,6 +235,26 @@
   font-weight: 500;
 }
 
+.skeletonImage {
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.skeletonText {
+  height: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  width: 120px;
+}
+
+.skeletonSubtext {
+  height: 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  width: 80px;
+}
 
 @media (max-width: 768px) {
   .hero {
@@ -268,7 +307,6 @@
     justify-content: center;
   }
 }
-
 
 .cta {
   padding: 6rem 1.5rem;

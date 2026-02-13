@@ -35,6 +35,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <img
           src={getImageUrl(product.imageUrl)}
           alt={product.name}
+          width="400"
+          height="320"
           loading="lazy"
         />
         <div className={styles.overlay}>

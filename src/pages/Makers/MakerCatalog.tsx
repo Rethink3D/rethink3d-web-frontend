@@ -8,6 +8,7 @@ import { SearchBar } from "../../components/ui/SearchBar";
 import { MakerFilterSidebar } from "./components/MakerFilter";
 import { useMakerFilters } from "../../hooks/useMakerFilters";
 import { trackMakerCatalogView } from "../../utils/analytics";
+import { Skeleton } from "../../components/ui/Skeleton";
 import styles from "./MakerCatalog.module.css";
 
 const MakerCatalog: React.FC = () => {
@@ -81,9 +82,14 @@ const MakerCatalog: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className={styles.loading}>
-          <div className="w-10 h-10 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
-          <span className="mt-4">Carregando makers...</span>
+        <div className={styles.grid}>
+          {Array(8)
+            .fill(0)
+            .map((_, i) => (
+              <div key={i}>
+                <Skeleton height={420} borderRadius={20} />
+              </div>
+            ))}
         </div>
       ) : filteredMakers.length === 0 ? (
         <div className={styles.emptyState}>

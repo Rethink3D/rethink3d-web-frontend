@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Users, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ import { productService } from "../../services/productService";
 import { makerService } from "../../services/makerService";
 import { getImageUrl } from "../../utils/imageUtil";
 import { translateService } from "../../utils/translationUtil";
-import { PrinterViewer } from "../../components/ui/PrinterViewer";
 import { AppPromoSection } from "../../components/sections/AppPromoSection";
 import { HowItWorksSection } from "../../components/sections/HowItWorksSection";
 import { FAQSection } from "../../components/sections/FAQSection";
@@ -29,10 +28,18 @@ import {
   trackGooglePlayClick,
   trackContactCTAClick,
 } from "../../utils/analytics";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import styles from "./Home.module.css";
+
+const PrinterViewer = lazy(() =>
+  import("../../components/ui/PrinterViewer").then((module) => ({
+    default: module.PrinterViewer,
+  })),
+);
 
 const Home = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [products, setProducts] = useState<ProductPreviewDTO[]>([]);
   const [makers, setMakers] = useState<MakerPreviewDTO[]>([]);
 
@@ -60,9 +67,7 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      {}
       <section className={styles.hero}>
-        {}
         <div className={styles.heroHeader}>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -150,17 +155,19 @@ const Home = () => {
           </motion.div>
         </div>
 
-        {}
-        <motion.div
-          className={styles.heroVisual}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        >
-          <PrinterViewer />
-        </motion.div>
+        {!isMobile && (
+          <motion.div
+            className={styles.heroVisual}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
+            <Suspense fallback={<div className={styles.printerPlaceholder} />}>
+              <PrinterViewer />
+            </Suspense>
+          </motion.div>
+        )}
 
-        {}
         <motion.div
           className={styles.marqueeSection}
           initial={{ opacity: 0, y: 30 }}
@@ -169,47 +176,90 @@ const Home = () => {
           transition={{ duration: 0.8 }}
         >
           <InfiniteMarquee speed={40} direction="left" className="mb-8">
-            {products.map((p) => (
-              <div
-                key={p.id}
-                className={styles.miniCard}
-                onClick={() => {
-                  trackProductClick(p.id, p.name, "marquee");
-                  navigate(`/products/${p.id}`);
-                }}
-              >
-                <img src={getImageUrl(p.imageUrl)} alt={p.name} />
-                <div className={styles.miniCardInfo}>
-                  <strong>{p.name}</strong>
-                  <span>R$ {p.price}</span>
-                </div>
-              </div>
-            ))}
+            {products.length > 0
+              ? products.map((p, index) => (
+                  <div
+                    key={p.id}
+                    className={styles.miniCard}
+                    onClick={() => {
+                      trackProductClick(p.id, p.name, "marquee");
+                      navigate(`/products/${p.id}`);
+                    }}
+                  >
+                    <img
+                      src={getImageUrl(p.imageUrl)}
+                      alt={p.name}
+                      width="90"
+                      height="90"
+                      loading={index < 3 ? "eager" : "lazy"}
+                      {...(index < 3 ? { fetchpriority: "high" } : {})}
+                    />
+                    <div className={styles.miniCardInfo}>
+                      <strong>{p.name}</strong>
+                      <span>R$ {p.price}</span>
+                    </div>
+                  </div>
+                ))
+              : Array(6)
+                  .fill(0)
+                  .map((_, i) => (
+                    <div
+                      key={`skeleton-p-${i}`}
+                      className={`${styles.miniCard} ${styles.skeleton}`}
+                    >
+                      <div className={styles.skeletonImage} />
+                      <div className={styles.miniCardInfo}>
+                        <div className={styles.skeletonText} />
+                        <div className={styles.skeletonSubtext} />
+                      </div>
+                    </div>
+                  ))}
           </InfiniteMarquee>
           <div style={{ height: "2rem" }} />
           <InfiniteMarquee speed={50} direction="right">
-            {makers.map((m) => (
-              <div
-                key={m.id}
-                className={styles.miniCard}
-                onClick={() => {
-                  trackMakerClick(m.id, m.name, "marquee");
-                  navigate(`/makers/${m.id}`);
-                }}
-              >
-                <img src={getImageUrl(m.imageUrl)} alt={m.name} />
-                <div className={styles.miniCardInfo}>
-                  <strong>{m.name}</strong>
-                  <span>
-                    {translateService(
-                      (m.service || m.categories?.[0] || ["Maker"])
-                        .toString()
-                        .split(",")[0],
-                    )}
-                  </span>
-                </div>
-              </div>
-            ))}
+            {makers.length > 0
+              ? makers.map((m, index) => (
+                  <div
+                    key={m.id}
+                    className={styles.miniCard}
+                    onClick={() => {
+                      trackMakerClick(m.id, m.name, "marquee");
+                      navigate(`/makers/${m.id}`);
+                    }}
+                  >
+                    <img
+                      src={getImageUrl(m.imageUrl)}
+                      alt={m.name}
+                      width="90"
+                      height="90"
+                      loading={index < 3 ? "eager" : "lazy"}
+                    />
+                    <div className={styles.miniCardInfo}>
+                      <strong>{m.name}</strong>
+                      <span>
+                        {translateService(
+                          (m.service || m.categories?.[0] || ["Maker"])
+                            .toString()
+                            .split(",")[0],
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                ))
+              : Array(6)
+                  .fill(0)
+                  .map((_, i) => (
+                    <div
+                      key={`skeleton-m-${i}`}
+                      className={`${styles.miniCard} ${styles.skeleton}`}
+                    >
+                      <div className={styles.skeletonImage} />
+                      <div className={styles.miniCardInfo}>
+                        <div className={styles.skeletonText} />
+                        <div className={styles.skeletonSubtext} />
+                      </div>
+                    </div>
+                  ))}
           </InfiniteMarquee>
         </motion.div>
       </section>

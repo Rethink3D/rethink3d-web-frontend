@@ -23,7 +23,6 @@ const getServiceLabel = (service: string) => {
 
   const normalizedService = service?.toLowerCase().trim();
 
-  
   return (
     serviceMap[service] ||
     serviceMap[normalizedService] ||
@@ -47,7 +46,7 @@ export const MakerCard: React.FC<MakerCardProps> = ({ maker, onClick }) => {
     const handleMouseMove = (e: MouseEvent) => {
       e.preventDefault();
       const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 1.5; 
+      const walk = (x - startX) * 1.5;
       slider.scrollLeft = scrollLeft - walk;
     };
 
@@ -69,7 +68,10 @@ export const MakerCard: React.FC<MakerCardProps> = ({ maker, onClick }) => {
           <img
             src={getImageUrl(maker.imageUrl)}
             alt={maker.name}
+            width="80"
+            height="80"
             className={styles.image}
+            loading="lazy"
           />
         </div>
       </div>
