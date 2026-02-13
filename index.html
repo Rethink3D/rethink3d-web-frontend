@@ -42,6 +42,30 @@
 
     <meta name="theme-color" content="#3b82f6" />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --color-primary: #000000;
+        --color-text-primary: #ffffff;
+      }
+      body {
+        background-color: #000000;
+        margin: 0;
+        color: #ffffff;
+        font-family: "Outfit", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-L1PZRYHQPH"
@@ -55,9 +79,5 @@
 
       gtag("config", "G-L1PZRYHQPH");
     </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -6,8 +6,7 @@ import { PrinterLoader } from "./components/ui/PrinterLoader";
 import { ScrollToTop } from "./components/utils/ScrollToTop";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import { MakerDashboardLayout } from "./components/layout/MakerDashboardLayout";
-
-const Home = lazy(() => import("./pages/Home/Home"));
+import Home from "./pages/Home/Home";
 const ProductCatalog = lazy(() => import("./pages/Products/ProductCatalog"));
 const MakerCatalog = lazy(() => import("./pages/Makers/MakerCatalog"));
 const MakerProfile = lazy(() => import("./pages/Makers/MakerProfile"));
@@ -53,11 +52,9 @@ export const AppRoutes = () => {
           <Route
             path="/"
             element={
-              <Suspense fallback={<PageLoader />}>
-                <PageTransition>
-                  <Home />
-                </PageTransition>
-              </Suspense>
+              <PageTransition>
+                <Home />
+              </PageTransition>
             }
           />
           <Route

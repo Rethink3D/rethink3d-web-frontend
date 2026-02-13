@@ -53,10 +53,7 @@ const MakerCatalog: React.FC = () => {
     <div className={styles.catalog}>
       <div className={styles.headerContainer}>
         <header className={styles.headerLeft}>
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <motion.h1 initial={{ y: -20 }} animate={{ y: 0 }}>
             Nossos Makers
           </motion.h1>
           <p>Conheça os especialistas por trás das criações.</p>

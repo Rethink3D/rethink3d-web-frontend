@@ -8,12 +8,37 @@ import { productService } from "../../services/productService";
 import { makerService } from "../../services/makerService";
 import { getImageUrl } from "../../utils/imageUtil";
 import { translateService } from "../../utils/translationUtil";
-import { AppPromoSection } from "../../components/sections/AppPromoSection";
-import { HowItWorksSection } from "../../components/sections/HowItWorksSection";
-import { FAQSection } from "../../components/sections/FAQSection";
-import { EventsSection } from "../../components/sections/EventsSection";
-import { AboutSection } from "../../components/sections/AboutSection";
-import { MakerCTASection } from "../../components/sections/MakerCTASection";
+
+const AppPromoSection = lazy(() =>
+  import("../../components/sections/AppPromoSection").then((m) => ({
+    default: m.AppPromoSection,
+  })),
+);
+const HowItWorksSection = lazy(() =>
+  import("../../components/sections/HowItWorksSection").then((m) => ({
+    default: m.HowItWorksSection,
+  })),
+);
+const FAQSection = lazy(() =>
+  import("../../components/sections/FAQSection").then((m) => ({
+    default: m.FAQSection,
+  })),
+);
+const EventsSection = lazy(() =>
+  import("../../components/sections/EventsSection").then((m) => ({
+    default: m.EventsSection,
+  })),
+);
+const AboutSection = lazy(() =>
+  import("../../components/sections/AboutSection").then((m) => ({
+    default: m.AboutSection,
+  })),
+);
+const MakerCTASection = lazy(() =>
+  import("../../components/sections/MakerCTASection").then((m) => ({
+    default: m.MakerCTASection,
+  })),
+);
 import type {
   ProductPreviewDTO,
   MakerPreviewDTO,
@@ -70,17 +95,17 @@ const Home = () => {
       <section className={styles.hero}>
         <div className={styles.heroHeader}>
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            initial={false}
+            animate={{ y: [20, 0], opacity: [0.99, 1] }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             IMAGINE. <br /> CRIE.{" "}
             <span className={styles.highlight}>IMPRIMA.</span>
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            initial={{ y: 10, opacity: 0.01 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           >
             Conectamos você aos melhores Makers e produtos impressos em 3D.
           </motion.p>
@@ -200,7 +225,7 @@ const Home = () => {
                     </div>
                   </div>
                 ))
-              : Array(6)
+              : Array(8)
                   .fill(0)
                   .map((_, i) => (
                     <div
@@ -246,12 +271,12 @@ const Home = () => {
                     </div>
                   </div>
                 ))
-              : Array(6)
+              : Array(8)
                   .fill(0)
                   .map((_, i) => (
                     <div
                       key={`skeleton-m-${i}`}
-                      className={`${styles.miniCard} ${styles.skeleton}`}
+                      className={`${styles.skeleton} ${styles.miniCard}`}
                     >
                       <div className={styles.skeletonImage} />
                       <div className={styles.miniCardInfo}>
@@ -264,12 +289,14 @@ const Home = () => {
         </motion.div>
       </section>
 
-      <HowItWorksSection />
-      <AppPromoSection />
-      <MakerCTASection />
-      <FAQSection />
-      <EventsSection />
-      <AboutSection />
+      <Suspense fallback={null}>
+        <HowItWorksSection />
+        <AppPromoSection />
+        <MakerCTASection />
+        <FAQSection />
+        <EventsSection />
+        <AboutSection />
+      </Suspense>
 
       <motion.section
         className={styles.cta}

@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
     <nav className={classNames(styles.navbar, { [styles.scrolled]: scrolled })}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo}>
-          <img src="/Logo.webp" alt="Rethink3D" />
+          <img src="/Logo.webp" alt="Rethink3D" width="40" height="40" />
           <span className={styles.logoText}>
             Rethink<span className={styles.highlight}>3D</span>
           </span>

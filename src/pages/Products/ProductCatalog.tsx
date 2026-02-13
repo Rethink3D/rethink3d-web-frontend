@@ -71,10 +71,7 @@ const ProductCatalog: React.FC = () => {
     <div className={styles.catalog}>
       <div className={styles.headerContainer}>
         <header className={styles.headerLeft}>
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <motion.h1 initial={{ y: -20 }} animate={{ y: 0 }}>
             Catálogo de Produtos
           </motion.h1>
           <p>Explore criações únicas feitas pela nossa comunidade de Makers.</p>
@@ -105,7 +102,7 @@ const ProductCatalog: React.FC = () => {
             .fill(0)
             .map((_, i) => (
               <div key={i} className={styles.gridItem}>
-                <Skeleton height={380} borderRadius={20} />
+                <Skeleton height={420} borderRadius={20} />
               </div>
             ))}
         </div>

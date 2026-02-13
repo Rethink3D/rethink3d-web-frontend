@@ -7,13 +7,6 @@ export default defineConfig({
     host: true,
   },
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ["react", "react-dom", "react-router-dom", "framer-motion"],
-          three: ["three", "@react-three/fiber", "@react-three/drei"],
-        },
-      },
-    },
+    chunkSizeWarningLimit: 1000,
   },
 });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { MouseTrace } from "../ui/MouseTrace";
@@ -10,6 +10,13 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const [showEffects, setShowEffects] = useState(false);
+
+  useEffect(() => {
+    const handle = requestAnimationFrame(() => setShowEffects(true));
+    return () => cancelAnimationFrame(handle);
+  }, []);
+
   return (
     <div
       style={{
@@ -19,9 +26,13 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         backgroundColor: "var(--color-primary)",
       }}
     >
-      <MouseTrace />
-      <RippleEffect />
-      <GridBackground />
+      {showEffects && (
+        <>
+          <MouseTrace />
+          <RippleEffect />
+          <GridBackground />
+        </>
+      )}
       <Navbar />
       <main style={{ flex: 1, paddingTop: "72px" }}>{children}</main>
       <Footer />
