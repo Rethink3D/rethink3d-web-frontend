@@ -11,7 +11,6 @@ import { translateService } from "../../utils/translationUtil";
 import { PrinterViewer } from "../../components/ui/PrinterViewer";
 import { AppPromoSection } from "../../components/sections/AppPromoSection";
 import { HowItWorksSection } from "../../components/sections/HowItWorksSection";
-import { TestimonialsSection } from "../../components/sections/TestimonialsSection";
 import { FAQSection } from "../../components/sections/FAQSection";
 import { EventsSection } from "../../components/sections/EventsSection";
 import { AboutSection } from "../../components/sections/AboutSection";
@@ -218,7 +217,6 @@ const Home = () => {
       <HowItWorksSection />
       <AppPromoSection />
       <MakerCTASection />
-      <TestimonialsSection />
       <FAQSection />
       <EventsSection />
       <AboutSection />
