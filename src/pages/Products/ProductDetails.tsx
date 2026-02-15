@@ -15,7 +15,6 @@ const ProductDetails: React.FC = () => {
   const { product, makerProducts, randomProducts, loading } =
     useProductDetails();
 
-  // Rastrear visualização do produto quando carregado
   useEffect(() => {
     if (product) {
       trackProductView(product.id, product.name, product.price);

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { VirtuosoGrid } from "react-virtuoso";
+
 import { productService } from "../../services/productService";
 import type { ProductPreviewDTO } from "../../types/dtos";
 import { ProductCard } from "./components/ProductCard";
@@ -101,7 +101,7 @@ const ProductCatalog: React.FC = () => {
           {Array(8)
             .fill(0)
             .map((_, i) => (
-              <div key={i} className={styles.gridItem}>
+              <div key={i}>
                 <Skeleton height={420} borderRadius={20} />
               </div>
             ))}
@@ -111,23 +111,15 @@ const ProductCatalog: React.FC = () => {
           <p>Nenhum produto encontrado com os filtros selecionados.</p>
         </div>
       ) : (
-        <VirtuosoGrid
-          style={{ height: "800px" }}
-          useWindowScroll
-          totalCount={filteredProducts.length}
-          listClassName={styles.grid}
-          itemClassName={styles.gridItem}
-          itemContent={(index: number) => {
-            const product = filteredProducts[index];
-            return (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onClick={() => navigate(`/products/${product.id}`)}
-              />
-            );
-          }}
-        />
+        <div className={styles.grid}>
+          {filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onClick={() => navigate(`/products/${product.id}`)}
+            />
+          ))}
+        </div>
       )}
     </div>
   );

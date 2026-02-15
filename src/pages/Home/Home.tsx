@@ -142,7 +142,7 @@ const Home = () => {
 
             <div className={styles.storeButtons}>
               <a
-                href="https://apps.apple.com/app/rethink3d/id6755210305"
+                href="https://apps.apple.com/br/app/rethink3d/id6755210305"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.storeBtn}

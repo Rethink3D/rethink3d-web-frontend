@@ -57,27 +57,27 @@ interface EventImage {
 const events: EventImage[] = [
   {
     id: "evento1",
-    src: "/events/Evento1.jpg",
+    src: "/events/Evento1.webp",
   },
   {
     id: "evento2",
-    src: "/events/Evento2.jpg",
+    src: "/events/Evento2.webp",
   },
   {
     id: "evento3",
-    src: "/events/Evento3.jpg",
+    src: "/events/Evento3.webp",
   },
   {
     id: "evento4",
-    src: "/events/Evento4.jpg",
+    src: "/events/Evento4.webp",
   },
   {
     id: "evento5",
-    src: "/events/Evento5.jpg",
+    src: "/events/Evento5.webp",
   },
   {
     id: "evento6",
-    src: "/events/Evento6.jpg",
+    src: "/events/Evento6.webp",
   },
 ];
 
