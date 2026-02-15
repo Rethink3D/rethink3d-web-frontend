@@ -4,7 +4,6 @@ const CONSENT_KEY = "rethink3d_cookie_consent";
 
 export type ConsentStatus = "pending" | "accepted" | "rejected";
 
-// Função helper para ler consentimento do localStorage
 const getInitialConsent = (): ConsentStatus => {
   if (typeof window === "undefined") return "pending";
   const savedConsent = localStorage.getItem(CONSENT_KEY);
@@ -15,7 +14,6 @@ const getInitialConsent = (): ConsentStatus => {
 };
 
 export const useCookieConsent = () => {
-  // Lazy initialization: função só executa na primeira renderização
   const [consent, setConsent] = useState<ConsentStatus>(getInitialConsent);
 
   const acceptCookies = () => {
