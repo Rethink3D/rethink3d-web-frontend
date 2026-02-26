@@ -1,19 +1,30 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
 import { MapPin, Users, Rocket, Award } from "lucide-react";
 import styles from "./AboutSection.module.css";
 
 export const AboutSection: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add(styles.visible);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className={styles.section}>
-      <div className={styles.container}>
-        <motion.div
-          className={styles.content}
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
+      <div className={styles.container} ref={containerRef}>
+        <div className={`${styles.content} ${styles.revealLeft}`}>
           <h2 className={styles.title}>
             Nossa Proposta, <br />
             <span className={styles.highlight}>Nossa História.</span>
@@ -56,15 +67,9 @@ export const AboutSection: React.FC = () => {
               nacional.
             </p>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className={styles.visual}
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
+        <div className={`${styles.visual} ${styles.revealRight}`}>
           <div className={styles.decoration} />
 
           <div className={styles.imageGrid}>
@@ -116,7 +121,7 @@ export const AboutSection: React.FC = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -4,6 +4,28 @@
   overflow: hidden;
 }
 
+.revealLeft {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.revealRight {
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 0.8s ease 0.2s,
+    transform 0.8s ease 0.2s;
+}
+
+.container.visible .revealLeft,
+.container.visible .revealRight {
+  opacity: 1;
+  transform: none;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -76,7 +98,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 .decoration {
   position: absolute;

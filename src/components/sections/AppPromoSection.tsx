@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   ShieldCheck,
   Truck,
@@ -18,6 +17,7 @@ type Tab = "client" | "maker";
 
 const ScreenshotCarousel: React.FC<{ activeTab: Tab }> = ({ activeTab }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const screenshots = {
     client: [
@@ -32,36 +32,44 @@ const ScreenshotCarousel: React.FC<{ activeTab: Tab }> = ({ activeTab }) => {
     ],
   };
 
-  const carouselRef = useRef(null);
-  const isInView = useInView(carouselRef);
-
   const currentImages = screenshots[activeTab];
 
   useEffect(() => {
-    if (!isInView) return;
+    let paused = false;
+    const container = containerRef.current;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        paused = !entry.isIntersecting;
+      },
+      { threshold: 0.1 },
+    );
+    if (container) io.observe(container);
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % currentImages.length);
+      if (!paused) {
+        setCurrentIndex((prev) => (prev + 1) % currentImages.length);
+      }
     }, 3000);
 
-    return () => clearInterval(interval);
-  }, [currentImages.length, isInView]);
+    return () => {
+      clearInterval(interval);
+      io.disconnect();
+    };
+  }, [currentImages.length]);
 
   return (
     <>
-      <div ref={carouselRef} className={styles.screenshotContainer}>
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={`${activeTab}-${currentIndex}`}
-            src={currentImages[currentIndex]}
-            alt={`${activeTab} screenshot ${currentIndex + 1}`}
-            className={styles.screenshot}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+      <div ref={containerRef} className={styles.screenshotContainer}>
+        {currentImages.map((src, idx) => (
+          <img
+            key={src}
+            src={src}
+            alt={`${activeTab} screenshot ${idx + 1}`}
+            className={`${styles.screenshot} ${idx === currentIndex ? styles.screenshotActive : ""}`}
+            loading={idx === 0 ? "eager" : "lazy"}
           />
-        </AnimatePresence>
+        ))}
       </div>
 
       <div className={styles.dotsContainer}>
@@ -143,61 +151,42 @@ export const AppPromoSection: React.FC = () => {
 
         <div className={styles.toggleContainer}>
           <button
-            className={`${styles.toggleBtn} ${
-              activeTab === "client" ? styles.active : ""
-            }`}
+            className={`${styles.toggleBtn} ${activeTab === "client" ? styles.active : ""}`}
             onClick={() => setActiveTab("client")}
           >
             Para Clientes
           </button>
           <button
-            className={`${styles.toggleBtn} ${
-              activeTab === "maker" ? styles.active : ""
-            }`}
+            className={`${styles.toggleBtn} ${activeTab === "maker" ? styles.active : ""}`}
             onClick={() => setActiveTab("maker")}
           >
             Para Makers
           </button>
 
-          <motion.div
+          <div
             className={styles.activePill}
-            layout
-            initial={false}
-            animate={{
-              left: activeTab === "client" ? "0.35rem" : "50%",
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             style={{
-              width: "calc(50% - 0.35rem)",
-              top: "0.35rem",
-              bottom: "0.35rem",
-              position: "absolute",
+              transform: `translateX(${activeTab === "client" ? "0" : "100%"})`,
             }}
           />
         </div>
 
         <div className={styles.contentRow}>
           <div className={styles.infoSide}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.3 }}
-                className={styles.benefitsList}
-              >
-                {benefits[activeTab].map((item) => (
-                  <div key={item.id} className={styles.benefitItem}>
-                    <div className={styles.iconBox}>{item.icon}</div>
-                    <div className={styles.text}>
-                      <h3>{item.title}</h3>
-                      <p>{item.desc}</p>
-                    </div>
+            <div
+              key={activeTab}
+              className={`${styles.benefitsList} ${styles.tabContent}`}
+            >
+              {benefits[activeTab].map((item) => (
+                <div key={item.id} className={styles.benefitItem}>
+                  <div className={styles.iconBox}>{item.icon}</div>
+                  <div className={styles.text}>
+                    <h3>{item.title}</h3>
+                    <p>{item.desc}</p>
                   </div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+                </div>
+              ))}
+            </div>
 
             <div className={styles.storeButtons}>
               <a
@@ -239,18 +228,12 @@ export const AppPromoSection: React.FC = () => {
           </div>
 
           <div className={styles.visualSide}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4 }}
-                className={styles.mockPhone}
-              >
-                <ScreenshotCarousel activeTab={activeTab} />
-              </motion.div>
-            </AnimatePresence>
+            <div
+              key={activeTab}
+              className={`${styles.mockPhone} ${styles.tabContent}`}
+            >
+              <ScreenshotCarousel activeTab={activeTab} />
+            </div>
           </div>
         </div>
       </div>

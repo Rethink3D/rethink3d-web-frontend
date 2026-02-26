@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 
 import { productService } from "../../services/productService";
 import type { ProductPreviewDTO } from "../../types/dtos";
@@ -71,9 +70,7 @@ const ProductCatalog: React.FC = () => {
     <div className={styles.catalog}>
       <div className={styles.headerContainer}>
         <header className={styles.headerLeft}>
-          <motion.h1 initial={{ y: -20 }} animate={{ y: 0 }}>
-            Catálogo de Produtos
-          </motion.h1>
+          <h1 className={styles.pageTitle}>Catálogo de Produtos</h1>
           <p>Explore criações únicas feitas pela nossa comunidade de Makers.</p>
         </header>
 

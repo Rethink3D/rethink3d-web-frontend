@@ -33,20 +33,69 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.imageSlide {
+.slideStack {
+  position: relative;
   width: 100%;
   height: 100%;
-  position: relative;
 }
 
-.imageSlide img {
+.slide {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
 }
 
+.slideActive {
+  opacity: 1;
+  pointer-events: auto;
+  position: relative;
+}
 
+.revealHeader {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+  animation: reveal-header 0.6s ease 0.1s both;
+}
+
+@keyframes reveal-header {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.partnerCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.partnersGrid.visible .partnerCard {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .partnersGrid {
   display: grid;
@@ -57,26 +106,10 @@
   padding: 0 1rem;
 }
 
-.partnerCard {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  backdrop-filter: blur(10px);
-  padding: 2rem;
-  border-radius: 16px;
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-
 :global([data-theme="dark"]) .partnerCard {
   background: rgba(255, 255, 255, 0.03);
   border-color: rgba(255, 255, 255, 0.1);
 }
-
 
 .partnerCard::before {
   content: "";
@@ -92,7 +125,7 @@
     transparent 100%
   );
   transform: skewX(-25deg);
-  transition: none; 
+  transition: none;
   pointer-events: none;
   z-index: 1;
 }

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { UploadCloud, Zap, Truck, MessageCircle } from "lucide-react";
 import styles from "./HowItWorksSection.module.css";
 
@@ -34,15 +34,28 @@ const steps = [
 ];
 
 export const HowItWorksSection: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add(styles.visible);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className={styles.section}>
+    <section className={styles.section} ref={sectionRef}>
       <div className={styles.header}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className={styles.revealBlock}>
           <span className={styles.intermediaryBadge}>
             Plataforma Intermediadora
           </span>
@@ -51,18 +64,15 @@ export const HowItWorksSection: React.FC = () => {
             Na Rethink3D, nós não imprimimos – nós conectamos. Somos a ponte
             entre sua imaginação e os melhores Makers do mercado.
           </p>
-        </motion.div>
+        </div>
       </div>
 
       <div className={styles.stepsContainer}>
         {steps.map((step, index) => (
-          <motion.div
+          <div
             key={step.id}
             className={styles.stepCard}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
+            style={{ transitionDelay: `${index * 0.12}s` }}
           >
             <div className={styles.iconContainer}>
               {step.icon}
@@ -70,7 +80,7 @@ export const HowItWorksSection: React.FC = () => {
             </div>
             <h3 className={styles.title}>{step.title}</h3>
             <p className={styles.description}>{step.description}</p>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

@@ -1,5 +1,4 @@
 import { lazy, Suspense, useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { ArrowRight, Users, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/Button";
@@ -93,28 +92,13 @@ const Home = () => {
   return (
     <div className={styles.home}>
       <section className={styles.hero}>
-        <div className={styles.heroHeader}>
-          <motion.h1
-            initial={false}
-            animate={{ y: [20, 0], opacity: [0.99, 1] }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
+        <div className={`${styles.heroHeader} ${styles.heroAnimate}`}>
+          <h1>
             IMAGINE. <br /> CRIE.{" "}
             <span className={styles.highlight}>IMPRIMA.</span>
-          </motion.h1>
-          <motion.p
-            initial={{ y: 10, opacity: 0.01 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-          >
-            Conectamos você aos melhores Makers e produtos impressos em 3D.
-          </motion.p>
-          <motion.div
-            className={styles.heroActions}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          >
+          </h1>
+          <p>Conectamos você aos melhores Makers e produtos impressos em 3D.</p>
+          <div className={styles.heroActions}>
             <div className={styles.ctaGroup}>
               <Button
                 size="lg"
@@ -177,29 +161,18 @@ const Home = () => {
                 </div>
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {!isMobile && (
-          <motion.div
-            className={styles.heroVisual}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
+          <div className={`${styles.heroVisual} ${styles.heroVisualAnimate}`}>
             <Suspense fallback={<div className={styles.printerPlaceholder} />}>
               <PrinterViewer />
             </Suspense>
-          </motion.div>
+          </div>
         )}
 
-        <motion.div
-          className={styles.marqueeSection}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-        >
+        <div className={styles.marqueeSection}>
           <InfiniteMarquee speed={40} direction="left" className="mb-8">
             {products.length > 0
               ? products.map((p, index) => (
@@ -286,7 +259,7 @@ const Home = () => {
                     </div>
                   ))}
           </InfiniteMarquee>
-        </motion.div>
+        </div>
       </section>
 
       <Suspense fallback={null}>
@@ -298,17 +271,7 @@ const Home = () => {
         <AboutSection />
       </Suspense>
 
-      <motion.section
-        className={styles.cta}
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.8 }}
-        style={{
-          backdropFilter: "blur(10px)",
-          background: "transparent",
-        }}
-      >
+      <section className={styles.cta}>
         <div className={styles.ctaContent}>
           <h2>Democratizando o acesso à impressão 3D</h2>
           <p>
@@ -327,7 +290,7 @@ const Home = () => {
             <Mail size={20} /> Entre em Contato
           </Button>
         </div>
-      </motion.section>
+      </section>
     </div>
   );
 };

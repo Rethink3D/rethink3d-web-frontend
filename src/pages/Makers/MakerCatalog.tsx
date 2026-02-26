@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import type { MakerPreviewDTO } from "../../types/dtos";
 import { makerService } from "../../services/makerService";
@@ -53,9 +52,7 @@ const MakerCatalog: React.FC = () => {
     <div className={styles.catalog}>
       <div className={styles.headerContainer}>
         <header className={styles.headerLeft}>
-          <motion.h1 initial={{ y: -20 }} animate={{ y: 0 }}>
-            Nossos Makers
-          </motion.h1>
+          <h1 className={styles.pageTitle}>Nossos Makers</h1>
           <p>Conheça os especialistas por trás das criações.</p>
         </header>
 

@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import styles from "./EventsSection.module.css";
 import {
   ChevronLeft,
@@ -55,77 +54,68 @@ interface EventImage {
 }
 
 const events: EventImage[] = [
-  {
-    id: "evento1",
-    src: "/events/Evento1.webp",
-  },
-  {
-    id: "evento2",
-    src: "/events/Evento2.webp",
-  },
-  {
-    id: "evento3",
-    src: "/events/Evento3.webp",
-  },
-  {
-    id: "evento4",
-    src: "/events/Evento4.webp",
-  },
-  {
-    id: "evento5",
-    src: "/events/Evento5.webp",
-  },
-  {
-    id: "evento6",
-    src: "/events/Evento6.webp",
-  },
+  { id: "evento1", src: "/events/Evento1.webp" },
+  { id: "evento2", src: "/events/Evento2.webp" },
+  { id: "evento3", src: "/events/Evento3.webp" },
+  { id: "evento4", src: "/events/Evento4.webp" },
+  { id: "evento5", src: "/events/Evento5.webp" },
+  { id: "evento6", src: "/events/Evento6.webp" },
 ];
 
 export const EventsSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [prevIndex, setPrevIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const pointerStartX = useRef<number | null>(null);
 
-  const currentEvent = events[currentIndex];
-
-  if (currentIndex !== prevIndex) {
-    setPrevIndex(currentIndex);
-  }
-
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % events.length);
-  };
-
-  const prevSlide = () => {
+  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % events.length);
+  const prevSlide = () =>
     setCurrentIndex((prev) => (prev - 1 + events.length) % events.length);
-  };
-
-  const togglePlay = () => setIsPlaying(!isPlaying);
+  const togglePlay = () => setIsPlaying((p) => !p);
 
   useEffect(() => {
-    let timer: number;
-    if (isPlaying) {
-      const slideDuration = 6000;
-      timer = setInterval(nextSlide, slideDuration);
-    }
+    if (!isPlaying) return;
+    const timer = setInterval(nextSlide, 6000);
     return () => clearInterval(timer);
   }, [isPlaying, currentIndex]);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          grid.classList.add(styles.visible);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(grid);
+    return () => observer.disconnect();
+  }, []);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    pointerStartX.current = e.clientX;
+  };
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (pointerStartX.current === null) return;
+    const delta = pointerStartX.current - e.clientX;
+    if (delta > 50) nextSlide();
+    else if (delta < -50) prevSlide();
+    pointerStartX.current = null;
+  };
 
   return (
     <section className={styles.section}>
       <div className={styles.header}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className={styles.revealHeader}>
           <h2>Quem faz acontecer</h2>
           <p>
             Conheça os fundadores e especialistas por trás da tecnologia
             Rethink3D.
           </p>
-        </motion.div>
+        </div>
       </div>
 
       <div className={styles.carouselContainer}>
@@ -144,28 +134,22 @@ export const EventsSection: React.FC = () => {
           <ChevronRight size={20} />
         </button>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentEvent.id}
-            className={styles.imageSlide}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragEnd={(_, info) => {
-              if (info.offset.x > 50) {
-                prevSlide();
-              } else if (info.offset.x < -50) {
-                nextSlide();
-              }
-            }}
-          >
-            <img src={currentEvent.src} alt="Evento Rethink3D" />
-          </motion.div>
-        </AnimatePresence>
+        <div
+          className={styles.slideStack}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          style={{ touchAction: "pan-y" }}
+        >
+          {events.map((ev, idx) => (
+            <img
+              key={ev.id}
+              src={ev.src}
+              alt="Evento Rethink3D"
+              className={`${styles.slide} ${idx === currentIndex ? styles.slideActive : ""}`}
+              loading={idx === 0 ? "eager" : "lazy"}
+            />
+          ))}
+        </div>
 
         <div className={styles.controlsWrapper}>
           <button
@@ -192,15 +176,12 @@ export const EventsSection: React.FC = () => {
         </div>
       </div>
 
-      <div className={styles.partnersGrid}>
+      <div className={styles.partnersGrid} ref={gridRef}>
         {founders.map((founder, idx) => (
-          <motion.div
+          <div
             key={idx}
             className={styles.partnerCard}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
+            style={{ transitionDelay: `${idx * 0.1}s` }}
           >
             <div className={styles.cardHeader}>
               <div className={styles.iconWrapper}>{founder.icon}</div>
@@ -210,7 +191,7 @@ export const EventsSection: React.FC = () => {
               </div>
             </div>
             <p className={styles.description}>{founder.description}</p>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>
