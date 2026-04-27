@@ -2,7 +2,7 @@ import React from "react";
 import { useMakerData } from "../../../hooks/useMakerData";
 import { getImageUrl } from "../../../utils/imageUtil";
 import { translateService } from "../../../utils/translationUtil";
-import { Store, Hammer, Tag, Info, Calendar, AlertCircle } from "lucide-react";
+import { Store, Hammer, Tag, Info, AlertCircle } from "lucide-react";
 import styles from "./Store.module.css";
 import { PrinterLoader } from "../../../components/ui/PrinterLoader";
 
@@ -79,13 +79,6 @@ const DashboardStore: React.FC = () => {
               <div className={styles.infoItem}>
                 <label>Nome da Loja</label>
                 <p>{maker.name}</p>
-              </div>
-              <div className={styles.infoItem}>
-                <label>Membro desde</label>
-                <div className={styles.withIcon}>
-                  <Calendar size={14} />
-                  <p>{maker.creationTime}</p>
-                </div>
               </div>
             </div>
           </div>
