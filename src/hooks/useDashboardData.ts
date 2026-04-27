@@ -42,18 +42,19 @@ export const useDashboardData = () => {
 
       const makerId = userProfile.makerId;
 
-      const [orders, requests, makerData] = await Promise.all([
-        orderService.getMakerOrders(),
-        customRequestService.getMakerRequests(),
+      const [ordersData, requestsData, makerData] = await Promise.all([
+        orderService.getMakerOrders({ page: 1, limit: 10 }),
+        customRequestService.getMakerRequests({ page: 1, limit: 10 }),
         makerId ? makerService.getMakerById(makerId) : Promise.resolve(null),
       ]);
 
-      
+      const orders = ordersData.items || [];
+      const requests = requestsData.items || [];
+
       const validOrders = orders.filter(
         (o) => o.id && o.status && o.creationTime,
       );
 
-      
       const activeOrdersList = validOrders.filter((o) =>
         [
           "awaiting_maker",
@@ -65,13 +66,10 @@ export const useDashboardData = () => {
         ].includes(o.status),
       );
 
-      
       const sortedOrders = activeOrdersList.sort((a, b) => {
-        
         if (a.status === "delayed" && b.status !== "delayed") return -1;
         if (a.status !== "delayed" && b.status === "delayed") return 1;
 
-        
         return (
           new Date(b.creationTime).getTime() -
           new Date(a.creationTime).getTime()
@@ -79,15 +77,14 @@ export const useDashboardData = () => {
       });
 
       setRecentOrders(sortedOrders.slice(0, 5));
-      const openRequests = requests.slice(0, 3);
-      setRecentRequests(openRequests);
+      setRecentRequests(requests.slice(0, 3));
 
       const productCount = makerData?.products?.length || 0;
 
       setStats({
-        activeOrders: activeOrdersList.length,
+        activeOrders: activeOrdersList.length, // Ideally we would get this count from backend instead of counting page 1
         totalProducts: productCount,
-        pendingRequests: requests.length,
+        pendingRequests: requestsData.meta?.total || requests.length,
         totalSales: 0,
       });
     } catch (error) {

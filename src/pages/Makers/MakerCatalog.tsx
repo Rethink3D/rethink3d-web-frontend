@@ -1,73 +1,46 @@
-import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { MakerPreviewDTO } from "../../types/dtos";
-import { makerService } from "../../services/makerService";
-import { MakerCard } from "./components/MakerCard";
 import { SearchBar } from "../../components/ui/SearchBar";
 import { MakerFilterSidebar } from "./components/MakerFilter";
-import { useMakerFilters } from "../../hooks/useMakerFilters";
-import { trackMakerCatalogView } from "../../utils/analytics";
+import { MakerCard } from "./components/MakerCard";
 import { Skeleton } from "../../components/ui/Skeleton";
+import { InfiniteScrollTrigger } from "../../components/ui/InfiniteScrollTrigger";
+import { useMakerCatalog } from "../../hooks/useMakerCatalog";
 import styles from "./MakerCatalog.module.css";
 
 const MakerCatalog: React.FC = () => {
-  const [makers, setMakers] = useState<MakerPreviewDTO[]>([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
   const {
-    setSearchText,
-    selectedCategories,
-    setSelectedCategories,
-    selectedServiceTypes,
-    setSelectedServiceTypes,
+    items,
+    loading,
+    filters,
     availableCategories,
-    filteredMakers,
     activeFilterCount,
-  } = useMakerFilters(makers);
-
-  const handleApplyFilters = (categories: string[], serviceTypes: string[]) => {
-    setSelectedCategories(categories);
-    setSelectedServiceTypes(serviceTypes);
-  };
-
-  useEffect(() => {
-    trackMakerCatalogView();
-
-    const fetchMakers = async () => {
-      try {
-        const data = await makerService.getMakers();
-        setMakers(data);
-      } catch (error) {
-        console.error("Failed to fetch makers", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMakers();
-  }, []);
+    hasMore,
+    setSearch,
+    applyFilters,
+    loadMore,
+  } = useMakerCatalog();
 
   return (
     <div className={styles.catalog}>
       <div className={styles.headerContainer}>
         <header className={styles.headerLeft}>
           <h1 className={styles.pageTitle}>Nossos Makers</h1>
-          <p>Conheça os especialistas por trás das criações.</p>
+          <p>Encontre o maker ideal para o seu projeto de impressão 3D.</p>
         </header>
 
         <div className={styles.headerRight}>
           <div className={styles.filterBar}>
             <SearchBar
-              onSearch={setSearchText}
-              placeholder="Buscar makers..."
+              onSearch={setSearch}
+              placeholder="Buscar por nome do maker..."
               className={styles.catalogSearchBar}
             >
               <MakerFilterSidebar
                 categories={availableCategories}
-                selectedCategories={selectedCategories}
-                selectedServiceTypes={selectedServiceTypes}
-                onApplyFilters={handleApplyFilters}
+                selectedCategories={filters.selectedCategories}
+                selectedServiceTypes={filters.selectedServiceTypes}
+                onApplyFilters={applyFilters}
                 activeFilterCount={activeFilterCount}
               />
             </SearchBar>
@@ -75,30 +48,39 @@ const MakerCatalog: React.FC = () => {
         </div>
       </div>
 
-      {loading ? (
+
+      {loading && items.length === 0 ? (
         <div className={styles.grid}>
-          {Array(8)
+          {Array(6)
             .fill(0)
             .map((_, i) => (
               <div key={i}>
-                <Skeleton height={420} borderRadius={20} />
+                <Skeleton height={320} borderRadius={20} />
               </div>
             ))}
         </div>
-      ) : filteredMakers.length === 0 ? (
+      ) : items.length === 0 ? (
         <div className={styles.emptyState}>
           <p>Nenhum maker encontrado com os filtros selecionados.</p>
         </div>
       ) : (
-        <div className={styles.grid}>
-          {filteredMakers.map((maker) => (
-            <MakerCard
-              key={maker.id}
-              maker={maker}
-              onClick={() => navigate(`/makers/${maker.id}`)}
-            />
-          ))}
-        </div>
+        <>
+          <div className={styles.grid}>
+            {items.map((maker) => (
+              <MakerCard
+                key={maker.id}
+                maker={maker}
+                onClick={() => navigate(`/makers/${maker.id}`)}
+              />
+            ))}
+          </div>
+
+          <InfiniteScrollTrigger
+            onIntersect={loadMore}
+            hasMore={hasMore}
+            isLoading={loading}
+          />
+        </>
       )}
     </div>
   );

@@ -465,3 +465,21 @@
     padding: 1.5rem;
   }
 }
+
+.loadMoreWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  padding-bottom: 2rem;
+}
+
+.loadMoreButton {
+  min-width: 200px;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.loadMoreButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}

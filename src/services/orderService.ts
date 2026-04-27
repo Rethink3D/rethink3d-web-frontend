@@ -1,14 +1,24 @@
 import api from "./api";
+import type { PaginatedResponse } from "../types/dtos/common";
 import type {
   OrderPreviewDTO,
   OrderTypeEnum,
   OrderDetailsDTO,
 } from "../types/dtos/order";
 
+export interface OrderFilters {
+  page?: number;
+  limit?: number;
+  type?: OrderTypeEnum;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
 export const orderService = {
-  getMakerOrders: async (type?: OrderTypeEnum): Promise<OrderPreviewDTO[]> => {
-    const response = await api.get<OrderPreviewDTO[]>("/order/maker", {
-      params: { type },
+  getMakerOrders: async (filters: OrderFilters = {}): Promise<PaginatedResponse<OrderPreviewDTO>> => {
+    const response = await api.get<PaginatedResponse<OrderPreviewDTO>>("/order/maker", {
+      params: filters,
     });
     return response.data;
   },

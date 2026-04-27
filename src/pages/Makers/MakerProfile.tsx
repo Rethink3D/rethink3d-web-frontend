@@ -2,18 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
-  Calendar,
   Hammer,
   Package,
   MessageCircle,
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import type {
-  MakerPageDTO,
-  MakerProductDTO,
-  ProductPreviewDTO,
-} from "../../types/dtos";
+import type { MakerPageDTO } from "../../types/dtos";
 import { makerService } from "../../services/makerService";
 import { Button } from "../../components/ui/Button";
 import { ProductGrid } from "./components/ProductGrid";
@@ -21,6 +16,8 @@ import { getImageUrl } from "../../utils/imageUtil";
 import { translateService } from "../../utils/translationUtil";
 import { trackMakerView, trackDownloadCTA } from "../../utils/analytics";
 import styles from "./MakerProfile.module.css";
+import { useMakerProducts } from "../../hooks/useMakerProducts";
+import { InfiniteScrollTrigger } from "../../components/ui/InfiniteScrollTrigger";
 
 const MakerProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,13 +27,19 @@ const MakerProfile: React.FC = () => {
   const [isBioExpanded, setIsBioExpanded] = useState(true);
   const [isCategoriesExpanded, setIsCategoriesExpanded] = useState(true);
 
+  const {
+    products: makerProducts,
+    loading: loadingProducts,
+    hasMore,
+    loadMore,
+  } = useMakerProducts(id);
+
   useEffect(() => {
     if (id) {
       const fetchMaker = async () => {
         try {
           const data = await makerService.getMakerById(id);
           setMaker(data);
-          // Rastrear visualização do perfil do maker
           trackMakerView(id, data.name || "Maker sem nome");
         } catch (error) {
           console.error("Failed to fetch maker", error);
@@ -67,22 +70,6 @@ const MakerProfile: React.FC = () => {
     );
   }
 
-  const makerPreviewProducts: ProductPreviewDTO[] = (maker.products || []).map(
-    (p: MakerProductDTO) => ({
-      id: p.id,
-      name: p.name,
-      price: p.price,
-      imageUrl: p.imageUrl,
-      description: "",
-      maker: maker.name || "",
-      makerId: String(maker.id),
-      rating: 0,
-      isPersonalizable: false,
-      isActive: true,
-      categories: [],
-    }),
-  );
-
   return (
     <div className={styles.container}>
       <Button
@@ -94,7 +81,6 @@ const MakerProfile: React.FC = () => {
       </Button>
 
       <div className={styles.profileContent}>
-        {}
         <div className={styles.mainInfo}>
           <div className={styles.avatarWrapper}>
             <img
@@ -115,22 +101,13 @@ const MakerProfile: React.FC = () => {
               )}
               <div className={styles.badge} title="Total de Produtos">
                 <Package size={16} />
-                <span>{(maker.products || []).length} Produtos</span>
+                <span>{maker.productCount || 0} Produtos</span>
               </div>
-              {maker.creationTime && (
-                <div className={styles.badge} title="Membro desde">
-                  <Calendar size={16} />
-                  <span>
-                    Desde {new Date(maker.creationTime).getFullYear()}
-                  </span>
-                </div>
-              )}
             </div>
           </div>
         </div>
 
         <div className={styles.detailsGrid}>
-          {}
           <div className={styles.bioSection}>
             <button
               className={styles.sectionHeaderToggle}
@@ -152,7 +129,6 @@ const MakerProfile: React.FC = () => {
             </div>
           </div>
 
-          {}
           <aside className={styles.sidebar}>
             <div className={styles.ctaCard}>
               <h3>Gostou do trabalho?</h3>
@@ -175,7 +151,6 @@ const MakerProfile: React.FC = () => {
             </div>
           </aside>
 
-          {}
           {maker.categories && maker.categories.length > 0 && (
             <div className={styles.categoriesSection}>
               <button
@@ -207,13 +182,24 @@ const MakerProfile: React.FC = () => {
         </div>
       </div>
 
-      {}
       <div className={styles.portfolioSection}>
-        {makerPreviewProducts.length > 0 ? (
-          <ProductGrid
-            title="Portfólio / Produtos"
-            products={makerPreviewProducts}
-          />
+        {loadingProducts && makerProducts.length === 0 ? (
+          <div className={styles.emptyPortfolio}>
+            <div className={styles.spinner}></div>
+            <p>Carregando produtos...</p>
+          </div>
+        ) : makerProducts.length > 0 ? (
+          <>
+            <ProductGrid
+              title="Portfólio / Produtos"
+              products={makerProducts}
+            />
+            <InfiniteScrollTrigger
+              onIntersect={loadMore}
+              hasMore={hasMore}
+              isLoading={loadingProducts}
+            />
+          </>
         ) : (
           <div className={styles.emptyPortfolio}>
             <Package size={48} />

@@ -21,7 +21,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   categories,
   selectedCategories,
   isPersonalizableFilter,
-  isActiveFilter = null,
+  isActiveFilter = undefined,
   onApplyFilters,
   activeFilterCount,
 }) => {
@@ -32,14 +32,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
     boolean | null
   >(isPersonalizableFilter);
   const [tempIsActive, setTempIsActive] = useState<boolean | null>(
-    isActiveFilter,
+    isActiveFilter ?? null,
   );
 
   const toggleSidebar = () => {
     if (!isOpen) {
       setTempSelectedCategories(selectedCategories);
       setTempIsPersonalizable(isPersonalizableFilter);
-      setTempIsActive(isActiveFilter);
+      setTempIsActive(isActiveFilter ?? null);
     }
     setIsOpen(!isOpen);
   };
@@ -74,7 +74,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   const handleCancel = () => {
     setTempSelectedCategories(selectedCategories);
     setTempIsPersonalizable(isPersonalizableFilter);
-    setTempIsActive(isActiveFilter);
+    setTempIsActive(isActiveFilter ?? null);
     setIsOpen(false);
   };
 
@@ -277,55 +277,57 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                   )}
 
                   {}
-                  <div className={styles.filterSection}>
-                    <div className={styles.sectionHeader}>
-                      <h3>Categorias</h3>
-                      {tempSelectedCategories.length > 0 && (
-                        <button
-                          onClick={handleClear}
-                          className={styles.clearButton}
-                          type="button"
-                        >
-                          Limpar Tudo
-                        </button>
-                      )}
+                  {categories.length > 0 && (
+                    <div className={styles.filterSection}>
+                      <div className={styles.sectionHeader}>
+                        <h3>Categorias</h3>
+                        {tempSelectedCategories.length > 0 && (
+                          <button
+                            onClick={handleClear}
+                            className={styles.clearButton}
+                            type="button"
+                          >
+                            Limpar Tudo
+                          </button>
+                        )}
+                      </div>
+                      <div className={styles.categoryList}>
+                        {categories.map((category) => {
+                          const isSelected =
+                            tempSelectedCategories.includes(category);
+                          return (
+                            <label key={category} className={styles.categoryItem}>
+                              <input
+                                type="checkbox"
+                                checked={isSelected}
+                                onChange={() => toggleCategory(category)}
+                                className={styles.checkbox}
+                              />
+                              <span className={styles.checkboxCustom}>
+                                {isSelected && (
+                                  <svg
+                                    width="12"
+                                    height="12"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="3"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  >
+                                    <polyline points="20 6 9 17 4 12" />
+                                  </svg>
+                                )}
+                              </span>
+                              <span className={styles.categoryName}>
+                                {category}
+                              </span>
+                            </label>
+                          );
+                        })}
+                      </div>
                     </div>
-                    <div className={styles.categoryList}>
-                      {categories.map((category) => {
-                        const isSelected =
-                          tempSelectedCategories.includes(category);
-                        return (
-                          <label key={category} className={styles.categoryItem}>
-                            <input
-                              type="checkbox"
-                              checked={isSelected}
-                              onChange={() => toggleCategory(category)}
-                              className={styles.checkbox}
-                            />
-                            <span className={styles.checkboxCustom}>
-                              {isSelected && (
-                                <svg
-                                  width="12"
-                                  height="12"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="3"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                              )}
-                            </span>
-                            <span className={styles.categoryName}>
-                              {category}
-                            </span>
-                          </label>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  )}
                 </div>
 
                 <div className={styles.sidebarFooter}>
