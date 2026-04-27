@@ -2,16 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { productService } from "../services/productService";
 import { makerService } from "../services/makerService";
-import type {
-  ProductPageDTO,
-  MakerProductDTO,
-  ProductPreviewDTO,
-} from "../types/dtos";
+import type { ProductPageDTO, ProductPreviewDTO } from "../types/dtos";
 
 export const useProductDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<ProductPageDTO | null>(null);
-  const [makerProducts, setMakerProducts] = useState<MakerProductDTO[]>([]);
+  const [makerProducts, setMakerProducts] = useState<ProductPreviewDTO[]>([]);
   const [randomProducts, setRandomProducts] = useState<ProductPreviewDTO[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,13 +24,18 @@ export const useProductDetails = () => {
             productData.maker.id,
           );
           const otherProducts =
-            makerData.products?.filter((p) => p.id !== id) || [];
+            (makerData.products as ProductPreviewDTO[] | undefined)?.filter(
+              (p) => p.id !== id,
+            ) || [];
           setMakerProducts(otherProducts.slice(0, 4));
         }
 
-        const allProducts = await productService.getProducts();
-        const otherRandom = allProducts
-          .filter((p) => p.id !== id)
+        const catalogData = await productService.getProductsCatalog({
+          page: 1,
+          limit: 40,
+        });
+        const otherRandom = catalogData.items
+          .filter((p) => p.id !== id && p.isActive)
           .sort(() => 0.5 - Math.random())
           .slice(0, 10);
         setRandomProducts(otherRandom);

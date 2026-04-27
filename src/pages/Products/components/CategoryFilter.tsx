@@ -21,7 +21,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   categories,
   selectedCategories,
   isPersonalizableFilter,
-  isActiveFilter = null,
+  isActiveFilter = undefined,
   onApplyFilters,
   activeFilterCount,
 }) => {
@@ -32,14 +32,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
     boolean | null
   >(isPersonalizableFilter);
   const [tempIsActive, setTempIsActive] = useState<boolean | null>(
-    isActiveFilter,
+    isActiveFilter ?? null,
   );
 
   const toggleSidebar = () => {
     if (!isOpen) {
       setTempSelectedCategories(selectedCategories);
       setTempIsPersonalizable(isPersonalizableFilter);
-      setTempIsActive(isActiveFilter);
+      setTempIsActive(isActiveFilter ?? null);
     }
     setIsOpen(!isOpen);
   };
@@ -74,7 +74,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   const handleCancel = () => {
     setTempSelectedCategories(selectedCategories);
     setTempIsPersonalizable(isPersonalizableFilter);
-    setTempIsActive(isActiveFilter);
+    setTempIsActive(isActiveFilter ?? null);
     setIsOpen(false);
   };
 

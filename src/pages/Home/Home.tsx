@@ -77,8 +77,8 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const [prodData, makerData] = await Promise.all([
-          productService.getProducts(),
-          makerService.getMakers(),
+          productService.getHomepageProducts(),
+          makerService.getMakersPreview(20),
         ]);
         setProducts(shuffleArray(prodData).slice(0, 8));
         setMakers(shuffleArray(makerData).slice(0, 8));

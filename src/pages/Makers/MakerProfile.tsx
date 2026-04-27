@@ -9,11 +9,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import type {
-  MakerPageDTO,
-  MakerProductDTO,
-  ProductPreviewDTO,
-} from "../../types/dtos";
+import type { MakerPageDTO, ProductPreviewDTO } from "../../types/dtos";
 import { makerService } from "../../services/makerService";
 import { Button } from "../../components/ui/Button";
 import { ProductGrid } from "./components/ProductGrid";
@@ -36,7 +32,6 @@ const MakerProfile: React.FC = () => {
         try {
           const data = await makerService.getMakerById(id);
           setMaker(data);
-          // Rastrear visualização do perfil do maker
           trackMakerView(id, data.name || "Maker sem nome");
         } catch (error) {
           console.error("Failed to fetch maker", error);
@@ -67,20 +62,8 @@ const MakerProfile: React.FC = () => {
     );
   }
 
-  const makerPreviewProducts: ProductPreviewDTO[] = (maker.products || []).map(
-    (p: MakerProductDTO) => ({
-      id: p.id,
-      name: p.name,
-      price: p.price,
-      imageUrl: p.imageUrl,
-      description: "",
-      maker: maker.name || "",
-      makerId: String(maker.id),
-      rating: 0,
-      isPersonalizable: false,
-      isActive: true,
-      categories: [],
-    }),
+  const makerProducts: ProductPreviewDTO[] = (maker.products || []).filter(
+    (p) => p.isActive,
   );
 
   return (
@@ -209,10 +192,10 @@ const MakerProfile: React.FC = () => {
 
       {}
       <div className={styles.portfolioSection}>
-        {makerPreviewProducts.length > 0 ? (
+        {makerProducts.length > 0 ? (
           <ProductGrid
             title="Portfólio / Produtos"
-            products={makerPreviewProducts}
+            products={makerProducts}
           />
         ) : (
           <div className={styles.emptyPortfolio}>

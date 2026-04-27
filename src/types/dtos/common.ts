@@ -20,3 +20,18 @@ export interface CategoryDTO {
   id: number;
   name: string;
 }
+
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  meta: PaginationMeta;
+}
+
+export const DEFAULT_LIMIT = 20;
+export const DEBOUNCE_MS = 400;

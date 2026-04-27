@@ -8,7 +8,6 @@ import { ProductInfoSection } from "./components/ProductInfoSection";
 import { ProductCarousel } from "./components/ProductCarousel";
 import { trackProductView } from "../../utils/analytics";
 import styles from "./ProductDetails.module.css";
-import type { ProductPreviewDTO } from "../../types/dtos";
 
 const ProductDetails: React.FC = () => {
   const navigate = useNavigate();
@@ -41,20 +40,6 @@ const ProductDetails: React.FC = () => {
     );
   }
 
-  const makerPreviewProducts: ProductPreviewDTO[] = makerProducts.map((p) => ({
-    id: p.id,
-    name: p.name,
-    price: p.price,
-    imageUrl: p.imageUrl,
-    description: p.description,
-    maker: product.maker?.name || "",
-    makerId: product.maker?.id || "",
-    rating: 0,
-    isPersonalizable: false,
-    isActive: true,
-    categories: [],
-  }));
-
   return (
     <div className={styles.container}>
       <Button
@@ -70,11 +55,11 @@ const ProductDetails: React.FC = () => {
           <ImageGallery product={product} />
         </div>
 
-        {makerPreviewProducts.length > 0 && (
+        {makerProducts.length > 0 && (
           <div className={styles.makerWrapper}>
             <ProductCarousel
               title={`Mais criações de ${product.maker?.name}`}
-              products={makerPreviewProducts}
+              products={makerProducts}
               variant="compact"
             />
           </div>

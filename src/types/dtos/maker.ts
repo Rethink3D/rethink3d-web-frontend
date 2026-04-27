@@ -1,4 +1,5 @@
 import type { ServiceTypeEnum } from "./common";
+import type { ProductPreviewDTO } from "./product";
 
 export type MakerStatusEnum = "PENDING" | "ACTIVE" | "PAUSED" | "BLOCKED";
 
@@ -9,6 +10,7 @@ export interface MakerPreviewDTO {
   description: string;
   service: ServiceTypeEnum;
   categories: string[];
+  status: MakerStatusEnum;
 }
 
 export interface MakerDTO {
@@ -19,6 +21,7 @@ export interface MakerDTO {
   categories: string[];
   creationTime: string;
   rating: number;
+  status: MakerStatusEnum;
 }
 
 export interface MakerProductDTO {
@@ -40,7 +43,7 @@ export interface MakerPageDTO {
   categories?: string[];
   service?: ServiceTypeEnum;
   status: MakerStatusEnum;
-  products?: MakerProductDTO[];
+  products?: ProductPreviewDTO[];
   creationTime?: string;
   canEdit?: boolean;
 }
