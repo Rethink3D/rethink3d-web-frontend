@@ -5,8 +5,6 @@ import { getMakerTimelineEvents } from "./utils/orderTimelineBuilder";
 import { useOrderDetails } from "../../../hooks/useOrderDetails";
 import { PrinterLoader } from "../../../components/ui/PrinterLoader";
 import styles from "./OrderDetails.module.css";
-
-// Refactored Components
 import { OrderHeader } from "./components/OrderHeader";
 import { OrderItems } from "./components/OrderItems";
 import { FinancialSummary } from "./components/FinancialSummary";

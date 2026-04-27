@@ -1,37 +1,54 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import type { ServiceTypeEnum } from "../../../../types/dtos";
+import type { ServiceTypeEnum, CategoryDTO } from "../../../../types/dtos";
+import orderStyles from "../../Orders/Orders.module.css";
 import styles from "./RequestFilter.module.css";
 
 interface RequestFilterProps {
-  categories: string[];
+  startDate: string;
+  endDate: string;
+  categories: CategoryDTO[];
   selectedCategories: string[];
+  selectedMaterials: string[];
   selectedService: ServiceTypeEnum | "all";
   onApplyFilters: (
+    startDate: string,
+    endDate: string,
     categories: string[],
+    materials: string[],
     service: ServiceTypeEnum | "all",
   ) => void;
   activeFilterCount: number;
 }
 
 export const RequestFilter: React.FC<RequestFilterProps> = ({
+  startDate,
+  endDate,
   categories,
   selectedCategories,
+  selectedMaterials,
   selectedService,
   onApplyFilters,
   activeFilterCount,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [tempStartDate, setTempStartDate] = useState(startDate);
+  const [tempEndDate, setTempEndDate] = useState(endDate);
   const [tempCategories, setTempCategories] =
     useState<string[]>(selectedCategories);
+  const [tempMaterials, setTempMaterials] =
+    useState<string[]>(selectedMaterials);
   const [tempService, setTempService] = useState<ServiceTypeEnum | "all">(
     selectedService,
   );
 
   const toggleSidebar = () => {
     if (!isOpen) {
+      setTempStartDate(startDate);
+      setTempEndDate(endDate);
       setTempCategories(selectedCategories);
+      setTempMaterials(selectedMaterials);
       setTempService(selectedService);
     }
     setIsOpen(!isOpen);
@@ -45,18 +62,30 @@ export const RequestFilter: React.FC<RequestFilterProps> = ({
     );
   };
 
+  const toggleMaterial = (material: string) => {
+    setTempMaterials((prev) =>
+      prev.includes(material)
+        ? prev.filter((m) => m !== material)
+        : [...prev, material],
+    );
+  };
+
   const handleApply = () => {
-    onApplyFilters(tempCategories, tempService);
+    onApplyFilters(
+      tempStartDate,
+      tempEndDate,
+      tempCategories,
+      tempMaterials,
+      tempService,
+    );
     setIsOpen(false);
   };
 
-  const handleClear = () => {
-    setTempCategories([]);
-    setTempService("all");
-  };
-
   const handleCancel = () => {
+    setTempStartDate(startDate);
+    setTempEndDate(endDate);
     setTempCategories(selectedCategories);
+    setTempMaterials(selectedMaterials);
     setTempService(selectedService);
     setIsOpen(false);
   };
@@ -136,7 +165,136 @@ export const RequestFilter: React.FC<RequestFilterProps> = ({
                 </div>
 
                 <div className={styles.sidebarContent}>
-                  {}
+                  <div className={styles.filterSection}>
+                    <div className={styles.sectionHeader}>
+                      <h3>Materiais</h3>
+                      {tempMaterials.length > 0 && (
+                        <button
+                          onClick={() => setTempMaterials([])}
+                          className={styles.clearButton}
+                          type="button"
+                        >
+                          Limpar
+                        </button>
+                      )}
+                    </div>
+                    <div className={styles.categoryList}>
+                      {[
+                        "PLA",
+                        "ABS",
+                        "PETG",
+                        "RESIN",
+                        "TPU",
+                        "NYLON",
+                        "ASA",
+                      ].map((material) => {
+                        const isSelected = tempMaterials.includes(material);
+                        return (
+                          <label key={material} className={styles.categoryItem}>
+                            <input
+                              type="checkbox"
+                              className={styles.checkbox}
+                              checked={isSelected}
+                              onChange={() => toggleMaterial(material)}
+                            />
+                            <span className={styles.checkboxCustom}>
+                              {isSelected && (
+                                <svg
+                                  width="12"
+                                  height="12"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="3"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                              )}
+                            </span>
+                            <span className={styles.categoryName}>
+                              {material}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className={styles.filterSection}>
+                    <div className={styles.sectionHeader}>
+                      <h3>Período</h3>
+                      {(tempStartDate || tempEndDate) && (
+                        <button
+                          onClick={() => {
+                            setTempStartDate("");
+                            setTempEndDate("");
+                          }}
+                          className={styles.clearButton}
+                          type="button"
+                        >
+                          Limpar
+                        </button>
+                      )}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1rem",
+                      }}
+                    >
+                      <div className={orderStyles.filterGroup}>
+                        <label
+                          htmlFor="start-date"
+                          className={orderStyles.filterLabel}
+                          style={{ minWidth: "40px" }}
+                        >
+                          De:
+                        </label>
+                        <input
+                          type="date"
+                          id="start-date"
+                          className={orderStyles.dateInput}
+                          style={{ width: "100%" }}
+                          value={tempStartDate}
+                          onChange={(e) => setTempStartDate(e.target.value)}
+                          onClick={(e) => {
+                            try {
+                              e.currentTarget.showPicker();
+                            } catch {}
+                          }}
+                        />
+                      </div>
+
+                      <div className={orderStyles.filterGroup}>
+                        <label
+                          htmlFor="end-date"
+                          className={orderStyles.filterLabel}
+                          style={{ minWidth: "40px" }}
+                        >
+                          Até:
+                        </label>
+                        <input
+                          type="date"
+                          id="end-date"
+                          className={orderStyles.dateInput}
+                          style={{ width: "100%" }}
+                          value={tempEndDate}
+                          min={tempStartDate}
+                          onChange={(e) => setTempEndDate(e.target.value)}
+                          onClick={(e) => {
+                            try {
+                              e.currentTarget.showPicker();
+                            } catch {}
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   <div className={styles.filterSection}>
                     <h3>Tipo de Serviço</h3>
                     <div className={styles.radioGroup}>
@@ -180,13 +338,12 @@ export const RequestFilter: React.FC<RequestFilterProps> = ({
                     </div>
                   </div>
 
-                  {}
                   <div className={styles.filterSection}>
                     <div className={styles.sectionHeader}>
                       <h3>Categorias</h3>
                       {tempCategories.length > 0 && (
                         <button
-                          onClick={handleClear}
+                          onClick={() => setTempCategories([])}
                           className={styles.clearButton}
                           type="button"
                         >
@@ -196,14 +353,18 @@ export const RequestFilter: React.FC<RequestFilterProps> = ({
                     </div>
                     <div className={styles.categoryList}>
                       {categories.map((category) => {
-                        const isSelected = tempCategories.includes(category);
+                        const val = category.id.toString();
+                        const isSelected = tempCategories.includes(val);
                         return (
-                          <label key={category} className={styles.categoryItem}>
+                          <label
+                            key={category.id}
+                            className={styles.categoryItem}
+                          >
                             <input
                               type="checkbox"
                               className={styles.checkbox}
                               checked={isSelected}
-                              onChange={() => toggleCategory(category)}
+                              onChange={() => toggleCategory(val)}
                             />
                             <span className={styles.checkboxCustom}>
                               {isSelected && (
@@ -222,7 +383,7 @@ export const RequestFilter: React.FC<RequestFilterProps> = ({
                               )}
                             </span>
                             <span className={styles.categoryName}>
-                              {category}
+                              {category.name}
                             </span>
                           </label>
                         );

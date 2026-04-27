@@ -14,7 +14,6 @@ export interface ProductSearchParams {
   isPersonalizable?: boolean;
 }
 
-
 export const productService = {
   searchProducts: async (
     params: ProductSearchParams = {},
@@ -56,6 +55,23 @@ export const productService = {
     const response = await api.get<PaginatedResponse<ProductPreviewDTO>>(
       "/products",
       { params },
+    );
+    return response.data;
+  },
+
+  getMakerProducts: async (
+    params: {
+      page?: number;
+      limit?: number;
+      searchFor?: string;
+      makerId?: string;
+      isPersonalizable?: boolean;
+      isActive?: boolean;
+    } = {},
+  ): Promise<PaginatedResponse<ProductPreviewDTO>> => {
+    const response = await api.get<PaginatedResponse<ProductPreviewDTO>>(
+      "/products",
+      { params, paramsSerializer: { indexes: null } },
     );
     return response.data;
   },

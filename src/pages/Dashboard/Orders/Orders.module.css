@@ -20,11 +20,19 @@
 }
 
 .header {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
   align-items: flex-start;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  gap: 1rem;
 }
 
 .headerTitle {
@@ -32,7 +40,11 @@
   align-items: center;
   gap: 1.25rem;
   color: var(--color-text-primary);
-  margin-bottom: 0.5rem;
+}
+
+.headerFilters {
+  display: flex;
+  align-items: center;
 }
 
 .headerTitle h1 {
@@ -53,7 +65,7 @@
 .controls {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 2rem;
   border-bottom: 1px solid var(--color-border);
@@ -103,34 +115,52 @@
 .filterWrapper {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1.5rem;
   padding-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .filterLabel {
   font-size: 0.85rem;
   color: var(--color-text-muted);
   font-weight: 500;
+  white-space: nowrap;
 }
 
-.statusSelect {
+.statusSelect,
+.dateInput {
   background: var(--color-secondary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+  padding: 0.5rem 0.75rem;
   color: var(--color-text-primary);
   font-size: 0.85rem;
   font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.dateInput {
+  padding: 0.45rem 0.75rem;
+}
+
+.statusSelect {
+  padding-right: 2.25rem;
   cursor: pointer;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255, 255, 255, 0.5)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
-  transition: all 0.2s ease;
-  min-width: 160px;
+  min-width: 140px;
 }
 
-.statusSelect:hover {
+.statusSelect:hover,
+.dateInput:hover {
   border-color: var(--color-accent);
 }
 
@@ -165,11 +195,13 @@
     margin-bottom: 2rem;
   }
 
-  .headerTitle {
-    flex-direction: row;
+  .headerTop {
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    gap: 0.5rem;
+  }
+
+  .headerTitle {
+    gap: 0.75rem;
   }
 
   .headerTitle h1 {

@@ -3,15 +3,32 @@ import type {
   CustomRequestDTO,
   CustomRequestDetailsDTO,
 } from "../types/dtos/request";
+import type { PaginatedResponse } from "../types/dtos/common";
+
+export interface CustomRequestFilters {
+  page?: number;
+  limit?: number;
+  startDate?: string;
+  endDate?: string;
+  categories?: number[] | string[];
+  service?: string[];
+  materials?: string[];
+}
 
 export const customRequestService = {
-  getGlobalRequests: async (): Promise<CustomRequestDTO[]> => {
-    const response = await api.get<CustomRequestDTO[]>("/custom-request");
+  getGlobalRequests: async (filters: CustomRequestFilters = {}): Promise<PaginatedResponse<CustomRequestDTO>> => {
+    const response = await api.get<PaginatedResponse<CustomRequestDTO>>("/custom-request", { 
+      params: filters,
+      paramsSerializer: { indexes: null }
+    });
     return response.data;
   },
 
-  getMakerRequests: async (): Promise<CustomRequestDTO[]> => {
-    const response = await api.get<CustomRequestDTO[]>("/custom-request/maker");
+  getMakerRequests: async (filters: CustomRequestFilters = {}): Promise<PaginatedResponse<CustomRequestDTO>> => {
+    const response = await api.get<PaginatedResponse<CustomRequestDTO>>("/custom-request/maker", { 
+      params: filters,
+      paramsSerializer: { indexes: null }
+    });
     return response.data;
   },
 

@@ -44,8 +44,8 @@ export interface MakerPageDTO {
   service?: ServiceTypeEnum;
   status: MakerStatusEnum;
   products?: ProductPreviewDTO[];
-  creationTime?: string;
   canEdit?: boolean;
+  productCount?: number;
 }
 
 export interface UpdateMakerDTO {

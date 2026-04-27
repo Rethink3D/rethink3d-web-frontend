@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
-  Calendar,
   Hammer,
   Package,
   MessageCircle,
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import type { MakerPageDTO, ProductPreviewDTO } from "../../types/dtos";
+import type { MakerPageDTO } from "../../types/dtos";
 import { makerService } from "../../services/makerService";
 import { Button } from "../../components/ui/Button";
 import { ProductGrid } from "./components/ProductGrid";
@@ -17,6 +16,8 @@ import { getImageUrl } from "../../utils/imageUtil";
 import { translateService } from "../../utils/translationUtil";
 import { trackMakerView, trackDownloadCTA } from "../../utils/analytics";
 import styles from "./MakerProfile.module.css";
+import { useMakerProducts } from "../../hooks/useMakerProducts";
+import { InfiniteScrollTrigger } from "../../components/ui/InfiniteScrollTrigger";
 
 const MakerProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,6 +26,13 @@ const MakerProfile: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isBioExpanded, setIsBioExpanded] = useState(true);
   const [isCategoriesExpanded, setIsCategoriesExpanded] = useState(true);
+
+  const {
+    products: makerProducts,
+    loading: loadingProducts,
+    hasMore,
+    loadMore,
+  } = useMakerProducts(id);
 
   useEffect(() => {
     if (id) {
@@ -62,10 +70,6 @@ const MakerProfile: React.FC = () => {
     );
   }
 
-  const makerProducts: ProductPreviewDTO[] = (maker.products || []).filter(
-    (p) => p.isActive,
-  );
-
   return (
     <div className={styles.container}>
       <Button
@@ -77,7 +81,6 @@ const MakerProfile: React.FC = () => {
       </Button>
 
       <div className={styles.profileContent}>
-        {}
         <div className={styles.mainInfo}>
           <div className={styles.avatarWrapper}>
             <img
@@ -98,22 +101,13 @@ const MakerProfile: React.FC = () => {
               )}
               <div className={styles.badge} title="Total de Produtos">
                 <Package size={16} />
-                <span>{(maker.products || []).length} Produtos</span>
+                <span>{maker.productCount || 0} Produtos</span>
               </div>
-              {maker.creationTime && (
-                <div className={styles.badge} title="Membro desde">
-                  <Calendar size={16} />
-                  <span>
-                    Desde {new Date(maker.creationTime).getFullYear()}
-                  </span>
-                </div>
-              )}
             </div>
           </div>
         </div>
 
         <div className={styles.detailsGrid}>
-          {}
           <div className={styles.bioSection}>
             <button
               className={styles.sectionHeaderToggle}
@@ -135,7 +129,6 @@ const MakerProfile: React.FC = () => {
             </div>
           </div>
 
-          {}
           <aside className={styles.sidebar}>
             <div className={styles.ctaCard}>
               <h3>Gostou do trabalho?</h3>
@@ -158,7 +151,6 @@ const MakerProfile: React.FC = () => {
             </div>
           </aside>
 
-          {}
           {maker.categories && maker.categories.length > 0 && (
             <div className={styles.categoriesSection}>
               <button
@@ -190,13 +182,24 @@ const MakerProfile: React.FC = () => {
         </div>
       </div>
 
-      {}
       <div className={styles.portfolioSection}>
-        {makerProducts.length > 0 ? (
-          <ProductGrid
-            title="Portfólio / Produtos"
-            products={makerProducts}
-          />
+        {loadingProducts && makerProducts.length === 0 ? (
+          <div className={styles.emptyPortfolio}>
+            <div className={styles.spinner}></div>
+            <p>Carregando produtos...</p>
+          </div>
+        ) : makerProducts.length > 0 ? (
+          <>
+            <ProductGrid
+              title="Portfólio / Produtos"
+              products={makerProducts}
+            />
+            <InfiniteScrollTrigger
+              onIntersect={loadMore}
+              hasMore={hasMore}
+              isLoading={loadingProducts}
+            />
+          </>
         ) : (
           <div className={styles.emptyPortfolio}>
             <Package size={48} />
